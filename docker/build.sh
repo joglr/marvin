@@ -1,1 +1,1 @@
-docker build -t my-ros .
+docker build -t my_ros .
