@@ -10,9 +10,9 @@ RUN apt-get update \
 	ros-noetic-hector-gazebo-plugins \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY docker_tmux.conf /root/.tmux.conf
+COPY ./config/docker_tmux.conf /root/.tmux.conf
 
-COPY init.vim /root/.config/nvim/init.vim
+COPY ./config/init.vim /root/.config/nvim/init.vim
 
 RUN mkdir -p catkin_ws/src
 
@@ -34,7 +34,7 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /entrypoint.sh
-COPY bashrc /.bashrc
+COPY ./config/bashrc /.bashrc
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 
