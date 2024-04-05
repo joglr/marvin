@@ -6,4 +6,4 @@ sudo usermod -aG docker $USER
 #  exit 1
 #fi
 
-docker run --name my_ros_container -it --user ros --network host --ipc host -v $PWD/source:/my_source_code -v /tmp/.X11-unix:/tmp/.X11-uniw:rw --env DISPLAY my_ros
+docker run -it --user ros --name my_ros_container --network host --ipc host -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v $PWD/source:/catkin_ws/src --env DISPLAY my_ros

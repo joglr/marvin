@@ -6,9 +6,17 @@ RUN apt-get update \
 	nano \
 	neovim \
 	tmux \
+	python3-catkin-tools \
+	ros-noetic-hector-gazebo-plugins \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY config/ /site_config
+COPY docker_tmux.conf /root/.tmux.conf
+
+COPY init.vim /root/.config/nvim/init.vim
+
+RUN mkdir -p catkin_ws/src
+
+VOLUME /catkin_ws/src
 
 ARG USERNAME=ros
 ARG USER_UID=1000
@@ -26,9 +34,11 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /entrypoint.sh
-COPY bashrc /home/${USERNAME}/.bashrc
-COPY /tmux.conf /.tmux.conf
+COPY bashrc /.bashrc
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+
+#Builds the catkin workspace
+RUN /bin/bash -c 'source ./opt/ros/noetic/setup.bash; cd catkin_ws; catkin init; catkin build'
 
 CMD ["bash"]
