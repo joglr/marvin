@@ -8,6 +8,16 @@ RUN apt-get update \
 	tmux \
 	python3-catkin-tools \
 	ros-noetic-hector-gazebo-plugins \
+	ros-noetic-ros-controllers \
+	ros-noetic-gazebo-ros-control \
+	ros-noetic-navigation \
+	ros-noetic-joy \
+	ros-noetic-teleop-twist-keyboard \
+	ros-noetic-amcl \
+	ros-noetic-neo-local-planner \
+	ros-noetic-map-server \
+	ros-noetic-move-base \
+	ros-noetic-openslam-gmapping \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY ./config/docker_tmux.conf /root/.tmux.conf

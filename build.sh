@@ -1,1 +1,1 @@
-docker build -t my_ros .
+docker build -t  private_ros .
