@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<robot name="myfirst">
+   <link name="base_link">
+      <visual>
+         <geometry>
+            <box size="0.1565 0.141 0.0865"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="right_front_leg">
+      <visual>
+         <geometry>
+            <box size="0.03 0.01 0.055"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="left_front_leg">
+      <visual>
+         <geometry>
+            <box size="0.03 0.01 0.055"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="right_rear_leg">
+      <visual>
+         <geometry>
+            <box size="0.03 0.01 0.055"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="left_rear_leg">
+      <visual>
+         <geometry>
+            <box size="0.03 0.01 0.055"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="right_front_wheel">
+      <visual>
+         <geometry>
+            <cylinder length="0.025" radius="0.0575"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="left_front_wheel">
+      <visual>
+         <geometry>
+            <cylinder length="0.025" radius="0.0575"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="right_rear_wheel">
+      <visual>
+         <geometry>
+            <cylinder length="0.025" radius="0.0575"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <link name="left_rear_wheel">
+      <visual>
+         <geometry>
+            <cylinder length="0.025" radius="0.0575"/>
+         </geometry>
+      </visual>
+   </link>
+
+   <joint name="base_to_right_front_leg">
+
+   </joint>
+
+   <joint name="base_to_left_front_leg">
+
+   </joint>
+
+   <joint name="base_to_right_rear_leg">
+
+   </joint>
+
+   <joint name="base_to_left_rear_leg">
+
+   </joint>
+
+   <joint name="rfl_to_right_front_wheel">
+
+   </joint>
+
+   <joint name="lfl_to_left_front_wheel">
+
+   </joint>
+
+   <joint name="rrl_to_right_rear_wheel">
+
+   </joint>
+
+   <joint name="lrl_to_left_rear_wheel">
+
+   </joint>
+
+</robot>
