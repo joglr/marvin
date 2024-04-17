@@ -45,7 +45,7 @@ RUN mkdir -p .config/nvim
 COPY entrypoint.sh /entrypoint.sh
 COPY config/bashrc /.bashrc
 COPY config/docker_tmux /home/$USERNAME/.tmux.conf
-COPY config/vimrc .config/nvim/init.vim
+COPY config/vimrc /home/$USERNAME/.config/nvim/init.vim
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 
