@@ -1,2 +1,3 @@
 source /opt/ros/noetic/setup.bash
-source /home/ros/catkin_ws/devel/setup.bash
+source /catkin_ws/devel/setup.bash
+tmux source-file /.tmux.conf
