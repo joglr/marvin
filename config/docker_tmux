@@ -1,0 +1,31 @@
+# Some tweaks to the status line
+set -g status-right "%H:%M"
+set -g window-status-current-style "underscore"
+
+# If running inside tmux ($TMUX is set), then change the status line to red
+%if #{TMUX}
+set -g status-bg red
+%endif
+
+# Enable RGB colour if running in xterm(1)
+set-option -sa terminal-overrides ",xterm*:Tc"
+
+# Change the default $TERM to tmux-256color
+set -g default-terminal "tmux-256color"
+
+#Change the keybind for vertical split
+bind v split-window -v
+bind h split-window -h
+unbind '"'
+unbind %
+
+# Faster switching of panes with Alt-arrow
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
+# Turn the mouse on, but without copy mode dragging
+set -g mouse on
+unbind -n MouseDrag1Pane
+unbind -Tcopy-mode MouseDrag1Pane
