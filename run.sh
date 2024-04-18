@@ -14,6 +14,6 @@ docker run -it \
   --network host \
   --ipc host \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-  -v $PWD/source:/catkin_ws/src \
+  -v $PWD/source:/home/ros/catkin_ws/src \
   --env DISPLAY \
   my_ros
