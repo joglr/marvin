@@ -18,11 +18,8 @@ RUN apt-get update \
 	ros-noetic-map-server \
 	ros-noetic-move-base \
 	ros-noetic-openslam-gmapping \
+  git \
 	&& rm -rf /var/lib/apt/lists/*
-
-RUN mkdir -p catkin_ws/src
-
-#VOLUME /catkin_ws/src
 
 ARG USERNAME=ros
 ARG USER_UID=1000
@@ -42,6 +39,8 @@ RUN apt-get update \
 
 RUN mkdir -p .config/nvim
 
+RUN mkdir -p home/$USERNAME/catkin_ws/src
+
 COPY entrypoint.sh /entrypoint.sh
 COPY config/bashrc /.bashrc
 COPY config/docker_tmux /home/$USERNAME/.tmux.conf
@@ -50,7 +49,7 @@ COPY config/vimrc /home/$USERNAME/.config/nvim/init.vim
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 
 #Builds the catkin workspace
-RUN /bin/bash -c 'source ./opt/ros/noetic/setup.bash; cd catkin_ws; catkin init; catkin build'
+RUN /bin/bash -c 'source ./opt/ros/noetic/setup.bash; cd /home/${USERNAME}/catkin_ws; catkin init; catkin build'
 
 USER $USERNAME
 
