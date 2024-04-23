@@ -61,17 +61,39 @@
     <xacro:property name="axle_radius" value="0.015"/>
     <xacro:property name="axle_length" value="0.030"/>
 
+    <!-- Center of the robot -->
+    <xacro:property name="centre_box_x" value="0.040"/>
+    <xacro:property name="centre_box_y" value="0.100"/>
+    <xacro:property name="centre_box_z" value="0.020"/>
+    
+
     <!-- Wheel measurements -->
     <xacro:property name="wheel_radius" value="0.055"/>
     <xacro:property name="wheel_length" value="0.050"/>
 
-    <!-- Connection -->
-    <xacro:property name="middle_x" value="0.04"/>
-    <xacro:property name="middle_y" value="0.1"/>
-    <xacro:property name="middle_z" value="0.02"/>
-
-    <!-- Pi -->
-    <!-- <xacro:property name="pi" value="3.14159265359" /> -->
+    <!-- Base link -->
+    <link name="base_link">
+        <xacro:default_inertial mass="1"/>
+        <visual>
+            <origin xyz="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="
+                    ${centre_box_x}
+                    ${centre_box_y}
+                    ${centre_box_z}"/>
+            </geometry>
+            <material name="blue"/>
+       </visual>
+        <collision>
+            <origin xyz="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="
+                    ${centre_box_x}
+                    ${centre_box_y}
+                    ${centre_box_z}"/>
+            </geometry>
+        </collision>
+    </link>
 
 
     <xacro:macro name="shoulder" params="prefix suffix reflect_y">
@@ -97,13 +119,14 @@
             </collision>
         </link>
 
-        <joint name="${prefix}_shoulder_horizontal_base" type="fixed">
+        <joint name="${prefix}_shoulder_horizontal_base" type="continuous">
             <origin xyz="
             0.0 
-            ${reflect_y *((shoulder_horizontal_y / 2) + (middle_y / 2))} 
+            ${reflect_y *((shoulder_horizontal_y / 2) + (centre_box_y / 2))} 
             0.0"/>
             <parent link="base_link"/>
             <child link="${prefix}_shoulder_horizontal"/>
+            <axis xyz="0 1 0"/>
         </joint>
 
         <link name="${prefix}_shoulder_box">
@@ -271,7 +294,7 @@
     </xacro:macro>
 
     <xacro:macro name="wheel" params="prefix suffix reflect_y">
-        <link name="${prefix}_${suffix}_wheel">
+        <link name="${prefix}_${suffix}_wheel_link">
             <xacro:default_inertial mass="1"/>
             <visual>
                 <origin rpy="${pi/2} 0.0 0.0"/>
@@ -288,16 +311,15 @@
             </collision>
         </link>
 
-        <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
+        <joint name="${prefix}_${suffix}_wheel" type="continuous">
             <origin xyz="0 ${reflect_y * (wheel_length/2 + axle_length/2)} 0"/>
             <parent link="${prefix}_${suffix}_axle"/>
-            <child link="${prefix}_${suffix}_wheel"/>
+            <child link="${prefix}_${suffix}_wheel_link"/>
             <axis xyz="0 1 0"/>
         </joint>
     </xacro:macro>
 
-    <!-- Base link -->
-    <link name="base_link"></link>
+
     <xacro:shoulder prefix="right" suffix="front" reflect_y="-1"/>
     <xacro:shoulder prefix="left" suffix="front" reflect_y="1"/>
     <xacro:caster prefix="right" suffix="front" reflect_x="1" reflect_y="-1"/>
