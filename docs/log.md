@@ -44,7 +44,8 @@ Eric converted our drawing into an `urdf` file.
 
 # 19/04/2024
 
-We drew the robot
+We drew the robot on [TLDRAW](https://www.tldraw.com/r/4b5c9L8QwUOHz1gBu0vhn?v=-154,661,2634,1250&p=page)
+
 
 ![alt text](image.png)
 
