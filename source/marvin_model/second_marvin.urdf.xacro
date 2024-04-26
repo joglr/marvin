@@ -93,6 +93,7 @@
                     ${centre_box_z}"/>
             </geometry>
         </collision>
+        
     </link>
 
 
