@@ -1,0 +1,57 @@
+# 26/04/2024
+
+Today, we created a gazebo package by running:
+
+```bash
+catkin  create pkg marvin_gazebo
+```
+
+in the src folder.
+
+This initializes an empty package, that we can use to make our simulation of the robot.
+
+We will create a custom `.world` file, which finds our robot and loads it into the simulation.
+along with a `.launch` file that will launch the simulation.
+
+We reference the world file in the launch file.
+
+
+Now we try to run the simulation by running this in the `src` folder:
+
+```bash
+source ./devel/setup.bash
+roslaunch marvin_gazebo marvin.launch
+```
+
+Now we can see the robot in the gazebo simulation if we spawn it in another terminal in the src folder:
+
+```bash
+rosrun gazebo_ros spawn_model -file marvin_model/urdf/marvin_dev.urdf -urdf -x 0 -y 0 -z 1 -model MARVIN
+```
+
+
+![alt text](urdf_in_gazebo.jpg)
+
+You can save the view into a new `.world` file, just remember to make it executable by running:
+
+```bash
+chmod +x marvin_with_robot.launch
+```
+
+# 22/04/2024
+
+Eric converted our drawing into an `urdf` file.
+
+# 19/04/2024
+
+We drew the robot
+
+![alt text](image.png)
+
+
+and took measurements.
+![alt text](image-1.png)
+
+and planned links and joints.
+
+![alt text](image-2.png)
