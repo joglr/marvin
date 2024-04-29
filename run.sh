@@ -1,6 +1,6 @@
 #!/bin/bash
 
-xhost +local:root
+xhost +
 sudo groupadd docker
 sudo usermod -aG docker $USER
 
@@ -15,5 +15,7 @@ docker run -it \
   --ipc host \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
   -v $PWD/source:/home/ros/catkin_ws/src \
-  --env DISPLAY \
+  --device=/dev/dri \
+  --group-add video \
+  --env "DISPLAY=$DISPLAY" \
   my_ros
