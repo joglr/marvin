@@ -18,6 +18,8 @@ RUN apt-get update \
 	ros-noetic-map-server \
 	ros-noetic-move-base \
 	ros-noetic-openslam-gmapping \
+  libgl1-mesa-glx \
+  libgl1-mesa-dri \
   git \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -48,7 +50,7 @@ COPY config/vimrc /home/$USERNAME/.config/nvim/init.vim
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 
-#Builds the catkin workspace
+# Initialises the catkin workspace
 RUN /bin/bash -c 'source ./opt/ros/noetic/setup.bash; cd /home/${USERNAME}/catkin_ws; catkin init; catkin build'
 
 USER $USERNAME
