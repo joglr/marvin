@@ -23,7 +23,11 @@
   <gazebo>
     <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
       <robotNamespace>/marvin</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
+  </gazebo>
+  <gazebo reference="base_link">
+    <material>Gazebo/Orange</material>
   </gazebo>
   <!-- Measurements -->
   <!-- W=Y H=Z D=X -->
@@ -73,7 +77,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="right_shoulder_horizontal_base" type="continuous">
+  <joint name="right_shoulder_horizontal_base" type="fixed">
     <origin xyz="             0.0              -0.0925              0.0"/>
     <parent link="base_link"/>
     <child link="right_shoulder_horizontal"/>
@@ -154,7 +158,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="left_shoulder_horizontal_base" type="continuous">
+  <joint name="left_shoulder_horizontal_base" type="fixed">
     <origin xyz="             0.0              0.0925              0.0"/>
     <parent link="base_link"/>
     <child link="left_shoulder_horizontal"/>
@@ -231,7 +235,7 @@
       <material name="blue"/>
     </collision>
   </link>
-  <joint name="right_front_caster_to_shoulder" type="continuous">
+  <joint name="right_front_caster_to_shoulder" type="fixed">
     <origin xyz="                 0.1325                 0.01                 -0.04                 "/>
     <parent link="right_shoulder_vertical"/>
     <child link="right_front_caster_horizontal"/>
@@ -313,19 +317,12 @@
     <child link="right_front_wheel_link"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <!-- Block provides gazbo with info on few additional properties -->
-  <gazebo reference="right_front_wheel">
-    <mu1 value="200.0"/>
-    <mu2 value="100.0"/>
-    <kp value="10000000.0"/>
-    <kd value="1.0"/>
-    <material>Gazebo/Black</material>
-  </gazebo>
   <!-- This block connects the wheel joint to an actuator (motor), which informs both
         simulation and visualization of the robot -->
   <transmission name="right_front_wheel_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="right_front_wheel_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="right_front_wheel_joint">
@@ -353,7 +350,7 @@
       <material name="blue"/>
     </collision>
   </link>
-  <joint name="left_front_caster_to_shoulder" type="continuous">
+  <joint name="left_front_caster_to_shoulder" type="fixed">
     <origin xyz="                 0.1325                 -0.01                 -0.04                 "/>
     <parent link="left_shoulder_vertical"/>
     <child link="left_front_caster_horizontal"/>
@@ -435,19 +432,12 @@
     <child link="left_front_wheel_link"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <!-- Block provides gazbo with info on few additional properties -->
-  <gazebo reference="left_front_wheel">
-    <mu1 value="200.0"/>
-    <mu2 value="100.0"/>
-    <kp value="10000000.0"/>
-    <kd value="1.0"/>
-    <material>Gazebo/Black</material>
-  </gazebo>
   <!-- This block connects the wheel joint to an actuator (motor), which informs both
         simulation and visualization of the robot -->
   <transmission name="left_front_wheel_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="left_front_wheel_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="left_front_wheel_joint">
@@ -475,7 +465,7 @@
       <material name="blue"/>
     </collision>
   </link>
-  <joint name="right_back_caster_to_shoulder" type="continuous">
+  <joint name="right_back_caster_to_shoulder" type="fixed">
     <origin xyz="                 -0.1325                 0.01                 -0.04                 "/>
     <parent link="right_shoulder_vertical"/>
     <child link="right_back_caster_horizontal"/>
@@ -557,19 +547,12 @@
     <child link="right_back_wheel_link"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <!-- Block provides gazbo with info on few additional properties -->
-  <gazebo reference="right_back_wheel">
-    <mu1 value="200.0"/>
-    <mu2 value="100.0"/>
-    <kp value="10000000.0"/>
-    <kd value="1.0"/>
-    <material>Gazebo/Black</material>
-  </gazebo>
   <!-- This block connects the wheel joint to an actuator (motor), which informs both
         simulation and visualization of the robot -->
   <transmission name="right_back_wheel_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="right_back_wheel_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="right_back_wheel_joint">
@@ -597,7 +580,7 @@
       <material name="blue"/>
     </collision>
   </link>
-  <joint name="left_back_caster_to_shoulder" type="continuous">
+  <joint name="left_back_caster_to_shoulder" type="fixed">
     <origin xyz="                 -0.1325                 -0.01                 -0.04                 "/>
     <parent link="left_shoulder_vertical"/>
     <child link="left_back_caster_horizontal"/>
@@ -679,19 +662,12 @@
     <child link="left_back_wheel_link"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <!-- Block provides gazbo with info on few additional properties -->
-  <gazebo reference="left_back_wheel">
-    <mu1 value="200.0"/>
-    <mu2 value="100.0"/>
-    <kp value="10000000.0"/>
-    <kd value="1.0"/>
-    <material>Gazebo/Black</material>
-  </gazebo>
   <!-- This block connects the wheel joint to an actuator (motor), which informs both
         simulation and visualization of the robot -->
   <transmission name="left_back_wheel_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <actuator name="left_back_wheel_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
     <joint name="left_back_wheel_joint">

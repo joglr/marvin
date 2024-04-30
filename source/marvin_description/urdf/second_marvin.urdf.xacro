@@ -35,11 +35,7 @@
         </inertial>
     </xacro:macro>
 
-    <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-            <robotNamespace>/marvin</robotNamespace>
-        </plugin>
-    </gazebo>
+    <xacro:include filename="marvin.gazebo"/>
 
     <!-- Measurements -->
     <!-- W=Y H=Z D=X -->
@@ -125,7 +121,7 @@
             </collision>
         </link>
 
-        <joint name="${prefix}_shoulder_horizontal_base" type="continuous">
+        <joint name="${prefix}_shoulder_horizontal_base" type="fixed">
             <origin xyz="
             0.0 
             ${reflect_y *((shoulder_horizontal_y / 2) + (centre_box_y / 2))} 
@@ -226,7 +222,7 @@
                 <material name="blue"/>
             </collision>
         </link>
-        <joint name="${prefix}_${suffix}_caster_to_shoulder" type="continuous">
+        <joint name="${prefix}_${suffix}_caster_to_shoulder" type="fixed">
             <origin xyz="
                 ${reflect_x * ((shoulder_vertical_x / 2) - (leg_horizontal_x/2))}
                 ${reflect_y * (-shoulder_vertical_y /2)}
@@ -323,28 +319,29 @@
             <child link="${prefix}_${suffix}_wheel_link"/>
             <axis xyz="0 1 0"/>
         </joint>
-
-        <!-- Block provides gazbo with info on few additional properties -->
-        <gazebo reference="${prefix}_${suffix}_wheel">
+        
+        <gazebo reference="${prefix}_${suffix}_wheel_link">
             <mu1 value="200.0"/>
             <mu2 value="100.0"/>
-            <kp value="10000000.0" />
+            <kp value="1000000.0" />
             <kd value="1.0" />
-            <material>Gazebo/Black</material>
+            <material>Gazebo/Grey</material>
         </gazebo>
 
         <!-- This block connects the wheel joint to an actuator (motor), which informs both
         simulation and visualization of the robot -->
         <transmission name="${prefix}_${suffix}_wheel_trans">
-        <type>transmission_interface/SimpleTransmission</type>
-        <actuator name="${prefix}_${suffix}_wheel_motor">
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-        <joint name="${prefix}_${suffix}_wheel_joint">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="${prefix}_${suffix}_wheel_motor">
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+            <joint name="${prefix}_${suffix}_wheel_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
         </transmission>
+
     </xacro:macro>
+
 
 
     <xacro:shoulder prefix="right" suffix="front" reflect_y="-1"/>
