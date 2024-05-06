@@ -1,1 +1,1 @@
-docker exec -it my_ros_container bash
+docker exec -it my_ros bash
