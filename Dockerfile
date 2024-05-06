@@ -43,12 +43,9 @@ RUN mkdir -p .config/nvim
 
 RUN mkdir -p home/$USERNAME/catkin_ws/src
 
-COPY entrypoint.sh /entrypoint.sh
 COPY config/bashrc /.bashrc
 COPY config/docker_tmux /home/$USERNAME/.tmux.conf
 COPY config/vimrc /home/$USERNAME/.config/nvim/init.vim
-
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
 
 # Initialises the catkin workspace
 RUN /bin/bash -c 'source ./opt/ros/noetic/setup.bash; cd /home/${USERNAME}/catkin_ws; catkin init; catkin build'
