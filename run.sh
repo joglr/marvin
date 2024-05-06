@@ -8,6 +8,8 @@ sudo usermod -aG docker $USER
 #  exit 1
 #fi
 
+docker stop my_ros
+docker rm my_ros
 docker run -it \
   --user ros \
   --name my_ros \

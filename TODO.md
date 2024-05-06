@@ -1,3 +1,6 @@
 - [ ] Make the steering ackerman (car-like) (Milan and Kiril)
+  - [ ] Make it in this file: [source/marvin_control/launch/marvin_ackerman_teleop.launch](source/marvin_control/launch/marvin_ackerman_teleop.launch)
+  - [ ] Change the model reference in [source/marvin_gazebo/launch/gazebo_ackerman.launch](source/marvin_gazebo/launch/gazebo_ackerman.launch)
+  - [ ] Make sure references to files are correct and updated
 - [ ] Fix the weight distribution (everything currently weights 1 kg) (Jonas)
 - [ ] Change the URDF (Erik) - The joints above the wheels are fixed, Erik needs to look into if statements in XML, they are not turning correctly (Erik)
