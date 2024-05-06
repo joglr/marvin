@@ -1,8 +1,6 @@
-# Running ROS Noetic with Docker 101
+# Installing Docker
 
-This tutorial assume you are running Ubuntu 22.0.4 LTS.
-
-The procedure was tested on a Dell XPS.
+This tutorial is tested on Ubuntu 22.0.4 LTS in WSL 2.
 
 1. Install Docker
 
