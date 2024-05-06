@@ -1,3 +1,15 @@
+# 06/05/2024
+
+We distributed the tasks, see [TODO.md](TODO.md)
+
+- [ ] Make the steering ackerman (car-like) (Milan and Kiril)
+- [ ] Fix the weight distribution (everything currently weights 1 kg) (Jonas)
+- [ ] Change the URDF (Erik) - The joints above the wheels are fixed, Erik needs to look into if statements in XML, they are not turning correctly (Erik)
+
+# 02/05/2024
+
+Erik have gotten the robot to be controlled by the keyboard in the gazebo simulation.
+
 # 26/04/2024
 
 Today, we created a gazebo package by running:

@@ -1,0 +1,3 @@
+- [ ] Make the steering ackerman (car-like) (Milan and Kiril)
+- [ ] Fix the weight distribution (everything currently weights 1 kg) (Jonas)
+- [ ] Change the URDF (Erik) - The joints above the wheels are fixed, Erik needs to look into if statements in XML, they are not turning correctly (Erik)
