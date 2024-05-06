@@ -35,7 +35,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:include filename="marvin_skid.gazebo"/>
+    <xacro:include filename="marvin_ackermann.gazebo"/>
 
     <!-- Measurements -->
     <!-- W=Y H=Z D=X -->
@@ -222,16 +222,32 @@
                 <material name="blue"/>
             </collision>
         </link>
-        <joint name="${prefix}_${suffix}_caster_to_shoulder" type="fixed">
-            <origin xyz="
-                ${reflect_x * ((shoulder_vertical_x / 2) - (leg_horizontal_x/2))}
-                ${reflect_y * (-shoulder_vertical_y /2)}
-                ${-1 * (shoulder_vertical_z / 2 + leg_horizontal_z / 2)}
-                "/>
-            <parent link="${prefix}_shoulder_vertical"/>
-            <child link="${prefix}_${suffix}_caster_horizontal"/>
-            <axis xyz="0 0 1"/>
-        </joint>
+        <xacro:if value="${suffix == 'front'}">
+            <joint name="${prefix}_${suffix}_caster_to_shoulder" type="revolute">
+                <origin xyz="
+                    ${reflect_x * ((shoulder_vertical_x / 2) - (leg_horizontal_x/2))}
+                    ${reflect_y * (-shoulder_vertical_y /2)}
+                    ${-1 * (shoulder_vertical_z / 2 + leg_horizontal_z / 2)}
+                    "/>
+                <parent link="${prefix}_shoulder_vertical"/>
+                <child link="${prefix}_${suffix}_caster_horizontal"/>
+                <axis xyz="0 0 1"/>
+                <limit lower="-1" upper="1" effort="10" velocity="10"/>
+            </joint>
+        </xacro:if>
+
+        <xacro:if value="${suffix == 'back'}">
+            <joint name="${prefix}_${suffix}_caster_to_shoulder" type="fixed">
+                <origin xyz="
+                    ${reflect_x * ((shoulder_vertical_x / 2) - (leg_horizontal_x/2))}
+                    ${reflect_y * (-shoulder_vertical_y /2)}
+                    ${-1 * (shoulder_vertical_z / 2 + leg_horizontal_z / 2)}
+                    "/>
+                <parent link="${prefix}_shoulder_vertical"/>
+                <child link="${prefix}_${suffix}_caster_horizontal"/>
+                <axis xyz="0 0 1"/>
+            </joint>
+        </xacro:if>
 
         <link name="${prefix}_${suffix}_caster_vertical">
             <xacro:default_inertial mass="1"/>
