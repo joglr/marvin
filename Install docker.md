@@ -16,4 +16,4 @@ Now, with the deb file downloaded, you can run `./setup.sh`
 
 2. Allow access to the `/tmp/.X11-unix` directory
 
-  ![alt text](share-directory.png)
+  ![alt text](docs/share-directory.png)
