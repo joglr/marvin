@@ -29,6 +29,12 @@ It works on Windows via. WSL 2 (Ubuntu) or on PopOS and MacOS.
     ```
     roslaunch marvin_control marvin_skid_teleop.launch
     ```
+    or
+    ```
+    roslaunch marvin_control marvin_ackerman_teleop.launch
+    ```
+
+
     This will start...
     - **rviz** which will show the positions of the robot in real time
     - **gazebo** which will be running the simulation

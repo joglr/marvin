@@ -1,3 +1,13 @@
+# 10/05/2024
+
+We agreed to meet again on monday, will send email to professor about time to meet. He is available from 10am until 5pm.
+We will do a presentation of who did what so far in the project.
+
+Erik and Jonas worked on fixing the physics for the model. We tweaked the inertia and torque untill we got a satisfying result, where the robot can turn and does not fall over.
+
+Jonas also pushed the adjusted weights, based on [his estimates](https://docs.google.com/spreadsheets/d/1m_v9MrUhMQl7QcuJg-CndBVnSvK0T4SyDx7DcACGZX8/edit?usp=sharing).
+
+
 # 06/05/2024
 
 We distributed the tasks, see [TODO.md](TODO.md)
