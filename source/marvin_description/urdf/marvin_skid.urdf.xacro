@@ -13,10 +13,10 @@
     <material name="black">
         <color rgba="0 0 0 1"/>
     </material>
-    
+
     <material name="red">
         <color rgba="1.0 0.0 0.0 1"/>
-    </material> 
+    </material>
 
     <material name="blue">
         <color rgba="0.0 0.0 1 1.0"/>
@@ -31,7 +31,7 @@
         <inertial>
             <origin xyz="0.0 0.0 0.0"/>
             <mass value="${mass}" />
-            <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01" />
         </inertial>
     </xacro:macro>
 
@@ -39,40 +39,51 @@
 
     <!-- Measurements -->
     <!-- W=Y H=Z D=X -->
-    
+
     <!-- Side of the robot -->
     <xacro:property name="shoulder_box_x" value="0.155"/>
     <xacro:property name="shoulder_box_y" value="0.080"/>
     <xacro:property name="shoulder_box_z" value="0.055"/>
+    <xacro:property name="shoulder_box_weight" value="0.050"/>
+
 
     <xacro:property name="shoulder_horizontal_x" value="0.040"/>
     <xacro:property name="shoulder_horizontal_y" value="0.085"/>
     <xacro:property name="shoulder_horizontal_z" value="0.020"/>
+    <xacro:property name="shoulder_horizontal_weight" value="0.07241"/>
+
 
     <xacro:property name="shoulder_vertical_x" value="0.305"/>
     <xacro:property name="shoulder_vertical_y" value="0.020"/>
     <xacro:property name="shoulder_vertical_z" value="0.060"/>
+    <xacro:property name="shoulder_vertical_weight" value="0.23928"/>
 
-    <xacro:property name="leg_horizontal_x" value="0.040"/>
-    <xacro:property name="leg_horizontal_y" value="0.045"/>
-    <xacro:property name="leg_horizontal_z" value="0.020"/>
+    <xacro:property name="caster_horizontal_x" value="0.040"/>
+    <xacro:property name="caster_horizontal_y" value="0.045"/>
+    <xacro:property name="caster_horizontal_z" value="0.020"/>
+    <xacro:property name="caster_horizontal_weight" value="0.03834"/>
 
-    <xacro:property name="leg_vertical_x" value="0.040"/>
-    <xacro:property name="leg_vertical_y" value="0.020"/>
-    <xacro:property name="leg_vertical_z" value="0.110"/>
+    <xacro:property name="caster_vertical_x" value="0.040"/>
+    <xacro:property name="caster_vertical_y" value="0.020"/>
+    <xacro:property name="caster_vertical_z" value="0.110"/>
+    <xacro:property name="caster_vertical_weight" value="0.09371"/>
 
     <xacro:property name="axle_radius" value="0.015"/>
     <xacro:property name="axle_length" value="0.030"/>
+    <xacro:property name="axle_weight" value="0.160"/>
+
 
     <!-- Center of the robot -->
-    <xacro:property name="centre_box_x" value="0.040"/>
-    <xacro:property name="centre_box_y" value="0.100"/>
-    <xacro:property name="centre_box_z" value="0.020"/>
-    
+    <xacro:property name="main_link_x" value="0.040"/>
+    <xacro:property name="main_link_y" value="0.100"/>
+    <xacro:property name="main_link_z" value="0.020"/>
+    <xacro:property name="main_link_weight" value="0.08519"/>
+
 
     <!-- Wheel measurements -->
     <xacro:property name="wheel_radius" value="0.055"/>
     <xacro:property name="wheel_length" value="0.050"/>
+    <xacro:property name="wheel_weight" value="0.340"/>
 
     <!-- Base link -->
     <link name="base_link">
@@ -80,9 +91,9 @@
             <origin xyz="0.0 0.0 0.0"/>
             <geometry>
                 <box size="
-                    ${centre_box_x}
-                    ${centre_box_y}
-                    ${centre_box_z}"/>
+                    ${main_link_x}
+                    ${main_link_y}
+                    ${main_link_z}"/>
             </geometry>
             <material name="blue"/>
        </visual>
@@ -90,31 +101,30 @@
             <origin xyz="0.0 0.0 0.0"/>
             <geometry>
                 <box size="
-                    ${centre_box_x}
-                    ${centre_box_y}
-                    ${centre_box_z}"/>
+                    ${main_link_x}
+                    ${main_link_y}
+                    ${main_link_z}"/>
             </geometry>
         </collision>
-        <xacro:default_inertial mass="1"/>
+        <xacro:default_inertial mass="${main_link_weight}"/>
     </link>
 
     <xacro:macro name="shoulder" params="prefix suffix reflect_y">
         <link name="${prefix}_shoulder_horizontal">
-            <xacro:default_inertial mass="1"/>
+            <xacro:default_inertial mass="${shoulder_horizontal_weight}"/>
             <visual>
                 <origin xyz="0.0 0.0 0.0"/>
                 <geometry>
-                    <box size="${shoulder_horizontal_x} 
+                    <box size="${shoulder_horizontal_x}
                     ${shoulder_horizontal_y}
                     ${shoulder_horizontal_z}"/>
                 </geometry>
                 <material name="red"/>
             </visual>
             <collision>
-            <xacro:default_inertial mass="1"/>
                 <origin xyz="0.0 0.0 0.0"/>
                 <geometry>
-                    <box size="${shoulder_horizontal_x} 
+                    <box size="${shoulder_horizontal_x}
                     ${shoulder_horizontal_y}
                     ${shoulder_horizontal_z}"/>
                 </geometry>
@@ -123,8 +133,8 @@
 
         <joint name="${prefix}_shoulder_horizontal_base" type="fixed">
             <origin xyz="
-            0.0 
-            ${reflect_y *((shoulder_horizontal_y / 2) + (centre_box_y / 2))} 
+            0.0
+            ${reflect_y *((shoulder_horizontal_y / 2) + (main_link_y / 2))}
             0.0"/>
             <parent link="base_link"/>
             <child link="${prefix}_shoulder_horizontal"/>
@@ -132,13 +142,13 @@
         </joint>
 
         <link name="${prefix}_shoulder_box">
-            <xacro:default_inertial mass="1"/>
+            <xacro:default_inertial mass="${shoulder_box_weight}"/>
             <visual>
                 <origin xyz="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="
-                        ${shoulder_box_x} 
-                        ${shoulder_box_y} 
+                        ${shoulder_box_x}
+                        ${shoulder_box_y}
                         ${shoulder_box_z}"
                     />
                 </geometry>
@@ -148,8 +158,8 @@
                 <origin xyz="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="
-                        ${shoulder_box_x} 
-                        ${shoulder_box_y} 
+                        ${shoulder_box_x}
+                        ${shoulder_box_y}
                         ${shoulder_box_z}"
                     />
                 </geometry>
@@ -166,7 +176,7 @@
         </joint>
 
         <link name="${prefix}_shoulder_vertical">
-            <xacro:default_inertial mass="1"/>
+            <xacro:default_inertial mass="${shoulder_vertical_weight}"/>
             <visual>
                 <origin xyz="0 0.0 0.0" />
                 <geometry>
@@ -191,7 +201,7 @@
         <joint name="${prefix}_shoulder_joint" type="fixed">
             <origin xyz="
             0
-            ${reflect_y * ((shoulder_horizontal_y / 2) + (shoulder_vertical_y / 2))}            
+            ${reflect_y * ((shoulder_horizontal_y / 2) + (shoulder_vertical_y / 2))}
             ${-1 * (shoulder_vertical_z/2 - shoulder_horizontal_z/2)}"/>
             <parent link="${prefix}_shoulder_horizontal"/>
             <child link="${prefix}_shoulder_vertical"/>
@@ -200,14 +210,14 @@
 
     <xacro:macro name="caster" params="prefix suffix reflect_x reflect_y">
         <link name="${prefix}_${suffix}_caster_horizontal">
-            <xacro:default_inertial mass="1"/>
+            <xacro:default_inertial mass="${caster_horizontal_weight}"/>
             <visual>
                 <origin xyz="0 0.0 0.0" />
                 <geometry>
                     <box size="
-                        ${leg_horizontal_x}
-                        ${leg_horizontal_y}
-                        ${leg_horizontal_z}"/>
+                        ${caster_horizontal_x}
+                        ${caster_horizontal_y}
+                        ${caster_horizontal_z}"/>
                 </geometry>
                 <material name="blue"/>
             </visual>
@@ -215,18 +225,18 @@
                 <origin xyz="0 0.0 0.0" />
                 <geometry>
                     <box size="
-                        ${leg_horizontal_x}
-                        ${leg_horizontal_y}
-                        ${leg_horizontal_z}"/>
+                        ${caster_horizontal_x}
+                        ${caster_horizontal_y}
+                        ${caster_horizontal_z}"/>
                 </geometry>
                 <material name="blue"/>
             </collision>
         </link>
         <joint name="${prefix}_${suffix}_caster_to_shoulder" type="fixed">
             <origin xyz="
-                ${reflect_x * ((shoulder_vertical_x / 2) - (leg_horizontal_x/2))}
+                ${reflect_x * ((shoulder_vertical_x / 2) - (caster_horizontal_x/2))}
                 ${reflect_y * (-shoulder_vertical_y /2)}
-                ${-1 * (shoulder_vertical_z / 2 + leg_horizontal_z / 2)}
+                ${-1 * (shoulder_vertical_z / 2 + caster_horizontal_z / 2)}
                 "/>
             <parent link="${prefix}_shoulder_vertical"/>
             <child link="${prefix}_${suffix}_caster_horizontal"/>
@@ -234,14 +244,14 @@
         </joint>
 
         <link name="${prefix}_${suffix}_caster_vertical">
-            <xacro:default_inertial mass="1"/>
+            <xacro:default_inertial mass="${caster_vertical_weight}"/>
             <visual>
                 <origin xyz="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="
-                        ${leg_vertical_x}
-                        ${leg_vertical_y}
-                        ${leg_vertical_z}"/>
+                        ${caster_vertical_x}
+                        ${caster_vertical_y}
+                        ${caster_vertical_z}"/>
                 </geometry>
                 <material name="green"/>
             </visual>
@@ -249,9 +259,9 @@
                 <origin xyz="0.0 0.0 0.0"/>
                 <geometry>
                     <box size="
-                        ${leg_vertical_x}
-                        ${leg_vertical_y}
-                        ${leg_vertical_z}"/>
+                        ${caster_vertical_x}
+                        ${caster_vertical_y}
+                        ${caster_vertical_z}"/>
                 </geometry>
             </collision>
         </link>
@@ -259,14 +269,14 @@
         <joint name="${prefix}_${suffix}_caster_joint" type="fixed">
             <origin xyz="
                 0
-                ${-reflect_y * (leg_horizontal_y/2 + leg_vertical_y/2)}
-                ${-1 * (leg_vertical_z/2 - leg_horizontal_z/2) }"/>
+                ${-reflect_y * (caster_horizontal_y/2 + caster_vertical_y/2)}
+                ${-1 * (caster_vertical_z/2 - caster_horizontal_z/2) }"/>
             <parent link="${prefix}_${suffix}_caster_horizontal"/>
             <child link="${prefix}_${suffix}_caster_vertical"/>
         </joint>
 
         <link name="${prefix}_${suffix}_axle">
-            <xacro:default_inertial mass="1"/>
+            <xacro:default_inertial mass="${axle_weight}"/>
             <visual>
                 <origin rpy="${pi/2} 0.0 0.0"/>
                 <geometry>
@@ -286,18 +296,18 @@
             <origin xyz="
                 0
                 0
-                ${-1 * (leg_vertical_z/2 - axle_radius)}"/>
+                ${-1 * (caster_vertical_z/2 - axle_radius)}"/>
             <parent link="${prefix}_${suffix}_caster_vertical"/>
             <child link="${prefix}_${suffix}_axle"/>
         </joint>
-        
+
         <xacro:wheel prefix="${prefix}" suffix="${suffix}" reflect_y="${reflect_y}"/>
-        
+
     </xacro:macro>
 
     <xacro:macro name="wheel" params="prefix suffix reflect_y">
         <link name="${prefix}_${suffix}_wheel_link">
-            <xacro:default_inertial mass="1"/>
+            <xacro:default_inertial mass="${wheel_weight}"/>
             <visual>
                 <origin rpy="${pi/2} 0.0 0.0"/>
                 <geometry>
@@ -318,12 +328,15 @@
             <parent link="${prefix}_${suffix}_axle"/>
             <child link="${prefix}_${suffix}_wheel_link"/>
             <axis xyz="0 1 0"/>
+            <dynamics damping="1" friction="1" />
         </joint>
-        
+
         <gazebo reference="${prefix}_${suffix}_wheel_link">
-            <mu1 value="1.0"/>
-            <mu2 value="1.0"/>
-            <kp value="1000000.0" />
+            <mu1 value="2.0"/>
+            <mu2 value="2.0"/>
+            <maxVel value="1"/>
+            <minDepth value="0"/>
+            <kp value="10000.0" />
             <kd value="100.0" />
             <material>Gazebo/Grey</material>
         </gazebo>
@@ -337,5 +350,5 @@
     <xacro:caster prefix="left" suffix="front" reflect_x="1" reflect_y="1"/>
     <xacro:caster prefix="right" suffix="back" reflect_x="-1" reflect_y="-1"/>
     <xacro:caster prefix="left" suffix="back" reflect_x="-1" reflect_y="1"/>
-    
+
 </robot>
