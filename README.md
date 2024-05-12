@@ -31,7 +31,7 @@ It works on Windows via. WSL 2 (Ubuntu) or on PopOS and MacOS.
     ```
     or
     ```
-    roslaunch marvin_control marvin_ackerman_teleop.launch
+    roslaunch marvin_control marvin_ackermann_teleop.launch
     ```
 
 
