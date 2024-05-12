@@ -35,7 +35,7 @@
         </inertial>
     </xacro:macro>
 
-    <xacro:include filename="marvin_ackermann.gazebo"/>
+    <xacro:include filename="marvin_swerve.gazebo"/>
 
     <!-- Measurements -->
     <!-- W=Y H=Z D=X -->
