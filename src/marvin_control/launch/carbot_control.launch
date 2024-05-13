@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="use_joy" default="false" doc="use joystick input"/>
+  <arg name="use_command_to_joint_state" default="true"
+      doc="if the gazebo simulation isn't running, and there is no encoder feedback being converted to joint states, generate joint states from their commands"/>
+  <include file="$(find marvin_description)/launch/marvin_ackermann.launch">
+    <arg name="use_joint_gui" value="false"/>
+    <arg name="use_static_tf" value="false"/>
+  </include>
+
+  <group if="$(arg use_joy)" ns="/marvin">
+  <node pkg="joy" type="joy_node"
+      name="joy">
+    <param name="dev" value="/dev/input/js0"/>
+  </node>
+
+  <node pkg="teleop_twist_joy" type="teleop_node"
+      name="teleop_twist_joy">
+    <rosparam command="load" file="$(find marvin_control)/config/xbox.config.yaml" ns="/marvin"/>
+  </node>
+  </group>
+  <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py"
+      name="teleop_twist_keyboard" unless="$(arg use_joy)">
+  </node>
+
+  <node pkg="marvin_control" type="cmd_vel_to_joint.py"
+      name="cmd_vel_to_joint" output="screen">
+  </node>
+
+  <node pkg="marvin_control" type="acker.py"
+      name="acker" output="screen">
+  </node>
+
+  <!-- TODO(lucasw) instead of this, look at ros control boilerplate and make
+      a controller that does the same thing -->
+  <group if="$(arg use_command_to_joint_state)" ns="/marvin">
+    <group ns="front_right">
+    <node pkg="marvin_control" type="command_to_joint_state.py"
+        name="steer_command_to_joint_state" output="screen">
+      <param name="joint_name" value="right_front_caster_to_shoulder"/>
+      <remap from="command" to="steer_position_controller/command"/>
+    </node>
+    <node pkg="marvin_control" type="command_to_joint_state.py"
+        name="command_to_joint_state" output="screen">
+      <param name="joint_name" value="right_front_wheel_joint"/>
+      <remap from="command" to="wheel_position_controller/command"/>
+    </node>
+    </group>
+
+    <group ns="front_left">
+      <node pkg="marvin_control" type="command_to_joint_state.py"
+          name="steer_command_to_joint_state" output="screen">
+        <param name="joint_name" value="left_front_caster_to_shoulder"/>
+        <remap from="command" to="steer_position_controller/command"/>
+      </node>
+      <node pkg="marvin_control" type="command_to_joint_state.py"
+          name="command_to_joint_state" output="screen">
+        <param name="joint_name" value="left_front_wheel_joint"/>
+        <remap from="command" to="wheel_position_controller/command"/>
+      </node>
+    </group>
+
+    <group ns="back_right">
+      <node pkg="marvin_control" type="command_to_joint_state.py"
+          name="command_to_joint_state" output="screen">
+        <param name="joint_name" value="left_back_wheel_joint"/>
+        <remap from="command" to="wheel_position_controller/command"/>
+      </node>
+    </group>
+    <group ns="back_left">
+      <node pkg="marvin_control" type="command_to_joint_state.py"
+          name="command_to_joint_state" output="screen">
+        <param name="joint_name" value="right_back_wheel_joint"/>
+        <remap from="command" to="wheel_position_controller/command"/>
+      </node>
+    </group>
+  </group>
+</launch>
