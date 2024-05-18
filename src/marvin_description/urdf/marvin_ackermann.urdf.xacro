@@ -231,6 +231,7 @@
                 <material name="blue"/>
             </collision>
         </link>
+
         <xacro:if value="${suffix == 'front'}">
             <joint name="${prefix}_${suffix}_caster_to_shoulder" type="revolute">
                 <origin xyz="
@@ -243,6 +244,17 @@
                 <axis xyz="0 0 1"/>
                 <limit lower="${-wheel_turn}" upper="${wheel_turn}" effort="10" velocity="10"/>
             </joint>
+
+            <transmission name="${prefix}_steer_tran">
+                <type>transmission_interface/SimpleTransmission</type>
+                <joint name="${prefix}_front_caster_shoulder">
+                    <hardwareInterface>EffortJointInterface</hardwareInterface>
+                </joint>
+                <actuator name="${prefix}_steer_motor">
+                    <hardwareInterface>EffortJointInterface</hardwareInterface>
+                    <mechanicalReduction>1</mechanicalReduction>
+                </actuator>
+            </transmission>
         </xacro:if>
 
         <xacro:if value="${suffix == 'back'}">
@@ -316,16 +328,6 @@
             <child link="${prefix}_${suffix}_axle"/>
         </joint>
 
-        <transmission name="${prefix}_steer_tran">
-            <type>transmission_interface/SimpleTransmission</type>
-            <joint name="${prefix}_front_caster_shoulder">
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
-            </joint>
-            <actuator name="${prefix}_steer_motor">
-                <hardwareInterface>EffortJointInterface</hardwareInterface>
-                <mechanicalReduction>1</mechanicalReduction>
-            </actuator>
-        </transmission>
         
         <xacro:wheel prefix="${prefix}" suffix="${suffix}" reflect_y="${reflect_y}"/>
         
