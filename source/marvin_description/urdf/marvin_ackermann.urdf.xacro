@@ -12,7 +12,7 @@
   <link name="front_axle">
     <xacro:default_inertial mass="0" />
   </link>
-  <joint name="middle_base" type="revolute">
+  <joint name="front_axle_joint" type="fixed">
     <origin
       xyz="
        ${shoulder_vertical_x / 2 - caster_horizontal_x / 2}
@@ -21,15 +21,28 @@
                     " />
     <parent link="base_link" />
     <child link="front_axle" />
+  </joint>
+  <link name="lead_steer">
+    <xacro:default_inertial mass="0" />
+  </link>
+  <joint name="lead_steer_joint" type="revolute">
+    <origin
+      xyz="
+       0
+       0
+       0
+                    " />
+    <parent link="front_axle" />
+    <child link="lead_steer" />
     <axis xyz="0 0 1" />
     <limit lower="${-wheel_turn}" upper="${wheel_turn}" effort="10" velocity="10" />
   </joint>
-  <link name="middle_front_wheel">
+  <link name="wheel_lead">
   </link>
   <joint name="middle_front_wheel_joint" type="continuous">
     <origin xyz="0 0 0" />
-    <parent link="front_axle" />
-    <child link="middle_front_wheel" />
+    <parent link="lead_steer" />
+    <child link="wheel_lead" />
     <axis xyz="0 1 0" />
   </joint>
 
@@ -47,15 +60,6 @@
     <parent link="base_link" />
     <child link="back_axle" />
     <axis xyz="0 0 1" />
-  </joint>
-  <link name="middle_back_wheel">
-    <xacro:default_inertial mass="0" />
-  </link>
-  <joint name="middle_back_wheel_joint" type="continuous">
-    <origin xyz="0 0 0" />
-    <parent link="back_axle" />
-    <child link="middle_back_wheel" />
-    <axis xyz="0 1 0" />
   </joint>
 
   <xacro:shoulder prefix="right" suffix="front" reflect_y="-1" />
