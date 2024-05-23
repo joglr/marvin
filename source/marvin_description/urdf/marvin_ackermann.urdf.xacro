@@ -1,17 +1,67 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="marvin">
-   
-    <xacro:include filename="marvin_skid.gazebo"/>
-    <xacro:include filename="caster.xacro"/>
-    <xacro:include filename="chassis.xacro"/>
-    <xacro:include filename="wheel.xacro"/>
-    <xacro:include filename="inertials.xacro"/>
-    <xacro:include filename="colours.xacro"/>
 
-    <xacro:shoulder prefix="right" suffix="front" reflect_y="-1"/>
-    <xacro:shoulder prefix="left" suffix="front" reflect_y="1"/>
-    <xacro:caster prefix="right" suffix="front" reflect_x="1" reflect_y="-1" turn="True"/>
-    <xacro:caster prefix="left" suffix="front" reflect_x="1" reflect_y="1" turn="True"/>
-    <xacro:caster prefix="right" suffix="back" reflect_x="-1" reflect_y="-1" turn="False"/>
-    <xacro:caster prefix="left" suffix="back" reflect_x="-1" reflect_y="1" turn="False"/>
+  <xacro:include filename="marvin_skid.gazebo" />
+  <xacro:include filename="caster_ack.xacro" />
+  <xacro:include filename="chassis.xacro" />
+  <xacro:include filename="wheel.xacro" />
+  <xacro:include filename="inertials.xacro" />
+  <xacro:include filename="colours.xacro" />
+
+  <!-- Middle front axle test-->
+  <link name="front_axle">
+    <xacro:default_inertial mass="0" />
+  </link>
+  <joint name="middle_base" type="revolute">
+    <origin
+      xyz="
+       ${shoulder_vertical_x / 2 - caster_horizontal_x / 2}
+       0
+       ${-1 * (shoulder_vertical_z / 2 + caster_horizontal_z + main_link_z / 2)}
+                    " />
+    <parent link="base_link" />
+    <child link="front_axle" />
+    <axis xyz="0 0 1" />
+    <limit lower="${-wheel_turn}" upper="${wheel_turn}" effort="10" velocity="10" />
+  </joint>
+  <link name="middle_front_wheel">
+  </link>
+  <joint name="middle_front_wheel_joint" type="continuous">
+    <origin xyz="0 0 0" />
+    <parent link="front_axle" />
+    <child link="middle_front_wheel" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+
+  <!-- Middle back axle test-->
+  <link name="back_axle">
+  </link>
+  <joint name="back_axle_joint" type="fixed">
+    <origin
+      xyz="
+       ${-1 * (shoulder_vertical_x / 2 - caster_horizontal_x / 2)}
+       0
+       ${-1 * (shoulder_vertical_z / 2 + caster_horizontal_z + main_link_z / 2)}
+                    " />
+    <parent link="base_link" />
+    <child link="back_axle" />
+    <axis xyz="0 0 1" />
+  </joint>
+  <link name="middle_back_wheel">
+    <xacro:default_inertial mass="0" />
+  </link>
+  <joint name="middle_back_wheel_joint" type="continuous">
+    <origin xyz="0 0 0" />
+    <parent link="back_axle" />
+    <child link="middle_back_wheel" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <xacro:shoulder prefix="right" suffix="front" reflect_y="-1" />
+  <xacro:shoulder prefix="left" suffix="front" reflect_y="1" />
+  <xacro:caster prefix="right" suffix="front" reflect_x="1" reflect_y="-1" turn="True" />
+  <xacro:caster prefix="left" suffix="front" reflect_x="1" reflect_y="1" turn="True" />
+  <xacro:caster prefix="right" suffix="back" reflect_x="-1" reflect_y="-1" turn="False" />
+  <xacro:caster prefix="left" suffix="back" reflect_x="-1" reflect_y="1" turn="False" />
 </robot>
