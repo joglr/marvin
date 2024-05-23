@@ -1,0 +1,6 @@
+--extra-index-url https://rospypi.github.io/simple/ rospy
+--extra-index-url https://rospypi.github.io/simple/ tf2_ros
+rospy
+nav_msgs
+tf
+geometry_msgs

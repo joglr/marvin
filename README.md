@@ -57,3 +57,10 @@ It works on Windows via. WSL 2 (Ubuntu) or on PopOS and MacOS.
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/marvin/cmd_vel
     ```
     You will know this is successfull if you see small table with explanations for control of the vehicle.
+
+or
+
+1. To **start the movement planner**
+    ```bash
+    rosrun marvin_plan movement_to_point.py
+    ```
