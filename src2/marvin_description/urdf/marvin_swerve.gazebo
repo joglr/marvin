@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<robot>
-    <gazebo reference="base_link">
-        <material>Gazebo/Blue</material>
-    </gazebo>
-</robot>
