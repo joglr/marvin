@@ -1,0 +1,56 @@
+<?xmln version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="inertials.xacro" />
+
+  <!-- Wheel measurements -->
+  <xacro:property name="wheel_radius" value="0.055" />
+  <xacro:property name="wheel_length" value="0.050" />
+  <xacro:property name="wheel_weight" value="0.340" />
+  <xacro:property name="wheel_turn" value="3.5" />
+
+  <xacro:macro name="wheel" params="prefix suffix reflect_y">
+    <link name="${prefix}_${suffix}_wheel_link">
+      <xacro:default_inertial mass="${wheel_weight}" />
+      <visual>
+        <origin rpy="${pi/2} 0.0 0.0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+        </geometry>
+        <material name="black" />
+      </visual>
+      <collision>
+        <origin rpy="${pi/2} 0.0 0.0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}_${suffix}_wheel_joint" type="continuous">
+      <origin xyz="0 ${reflect_y * (wheel_length/2 + axle_length/2 - 0.001)} 0" />
+      <parent link="${prefix}_${suffix}_axle" />
+      <child link="${prefix}_${suffix}_wheel_link" />
+      <axis xyz="0 1 0" />
+    </joint>
+
+    <gazebo reference="${prefix}_${suffix}_wheel_link">
+      <mu1 value="1.0" />
+      <mu2 value="1.0" />
+      <kp value="10000.0" />
+      <kd value="100.0" />
+      <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <transmission name="${prefix}_${suffix}_tran">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_${suffix}_wheel_joint">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_${suffix}_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+</robot>
