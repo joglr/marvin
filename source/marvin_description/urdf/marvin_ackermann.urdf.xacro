@@ -10,7 +10,7 @@
 
   <!-- Middle front axle test-->
   <link name="front_axle">
-    <xacro:default_inertial mass="0" />
+    <xacro:default_inertial mass="0.1" />
   </link>
   <joint name="front_axle_joint" type="fixed">
     <origin
@@ -23,7 +23,7 @@
     <child link="front_axle" />
   </joint>
   <link name="lead_steer">
-    <xacro:default_inertial mass="0" />
+    <xacro:default_inertial mass="0.1" />
   </link>
   <joint name="lead_steer_joint" type="revolute">
     <origin
@@ -37,7 +37,9 @@
     <axis xyz="0 0 1" />
     <limit lower="${-wheel_turn}" upper="${wheel_turn}" effort="10" velocity="10" />
   </joint>
+
   <link name="wheel_lead">
+    <xacro:default_inertial mass="0.1" />
   </link>
   <joint name="middle_front_wheel_joint" type="continuous">
     <origin xyz="0 0 0" />
