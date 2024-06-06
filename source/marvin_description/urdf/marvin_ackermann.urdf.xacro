@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="marvin">
 
-  <xacro:include filename="marvin_skid.gazebo" />
+  <!-- <xacro:include filename="marvin_skid.gazebo" />-->
   <xacro:include filename="caster_ack.xacro" />
   <xacro:include filename="chassis.xacro" />
   <xacro:include filename="wheel.xacro" />
@@ -41,11 +41,13 @@
   <link name="wheel_lead">
     <xacro:default_inertial mass="0.1" />
   </link>
-  <joint name="middle_front_wheel_joint" type="continuous">
-    <origin xyz="0 0 0" />
+
+  <joint name="wheel_lead_axle" type="continuous">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <parent link="lead_steer" />
     <child link="wheel_lead" />
-    <axis xyz="0 1 0" />
+    <axis xyz="0 1 0"/>
+    <limit effort="1000.0" velocity="0.5"/>
   </joint>
 
 
