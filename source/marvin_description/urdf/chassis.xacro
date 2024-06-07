@@ -47,7 +47,7 @@
                     ${main_link_z}" />
       </geometry>
     </collision>
-    <xacro:default_inertial mass="${main_link_weight}" />
+    <!-- <xacro:default_inertial mass="${main_link_weight}" /> -->
   </link>
 
 
