@@ -7,6 +7,8 @@
   <xacro:include filename="wheel.xacro" />
   <xacro:include filename="inertials.xacro" />
   <xacro:include filename="colours.xacro" />
+  
+  <xacro:include filename="marvin_ackermann.gazebo" />
 
   <!-- Middle front axle test-->
   <link name="front_axle">

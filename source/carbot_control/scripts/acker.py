@@ -29,24 +29,24 @@ class Acker():
         self.joints = rospy.get_param("~steered_joints",
                                       [{'link': 'left_front_caster_horizontal',
                                         'steer_joint': 'left_front_caster_to_shoulder',
-                                        'steer_topic': '/marvin/front_left/steer_position_controller/command',
+                                        'steer_topic': '/carbot/front_left/steer_position_controller/command',
                                         'wheel_joint': 'left_front_wheel_joint',
-                                        'wheel_topic': '/marvin/front_left/wheel_position_controller/command'},
+                                        'wheel_topic': '/carbot/front_left/wheel_position_controller/command'},
                                        {'link': 'right_front_caster_horizontal',
                                         'steer_joint': 'right_front_caster_to_shoulder',
-                                        'steer_topic': '/marvin/front_right/steer_position_controller/command',
+                                        'steer_topic': '/carbot/front_right/steer_position_controller/command',
                                         'wheel_joint': 'right_front_wheel_joint',
-                                        'wheel_topic': '/marvin/front_right/wheel_position_controller/command'},
-                                       {'link': 'back_left',
+                                        'wheel_topic': '/carbot/front_right/wheel_position_controller/command'},
+                                       {'link': 'left_back_caster_horizontal',
                                         'steer_joint': None,
                                         'steer_topic': None,
                                         'wheel_joint': 'left_back_wheel_joint',
-                                        'wheel_topic': '/marvin/back_left/wheel_position_controller/command'},
-                                       {'link': 'back_right',
+                                        'wheel_topic': '/carbot/back_left/wheel_position_controller/command'},
+                                       {'link': 'right_back_caster_horizontal',
                                         'steer_joint': None,
                                         'steer_topic': None,
                                         'wheel_joint': 'right_back_wheel_joint',
-                                        'wheel_topic': '/marvin/back_right/wheel_position_controller/command'}])
+                                        'wheel_topic': '/carbot/back_right/wheel_position_controller/command'}])
 
         self.wheel_radius = rospy.get_param("~wheel_radius", 0.15)
         # gazebo joint controller commands

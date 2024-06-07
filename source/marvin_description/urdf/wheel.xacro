@@ -45,10 +45,10 @@
     <transmission name="${prefix}_${suffix}_tran">
       <type>transmission_interface/SimpleTransmission</type>
       <joint name="${prefix}_${suffix}_wheel_joint">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       </joint>
       <actuator name="${prefix}_${suffix}_motor">
-        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>

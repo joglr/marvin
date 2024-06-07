@@ -59,7 +59,7 @@
       <!-- Transmission for ros_control-->
       <transmission name="${prefix}_steer_tran">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="${prefix}_front_caster_shoulder">
+        <joint name="${prefix}_front_caster_to_shoulder">
           <hardwareInterface>EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="${prefix}_steer_motor">
