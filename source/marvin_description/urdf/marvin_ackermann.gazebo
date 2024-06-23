@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <robot>
-    <gazebo reference="base_link">
-        <material>Gazebo/Green</material>
-    </gazebo>
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/carbot</robotNamespace>
+      <robotParam>/robot_description</robotParam>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
 </robot>

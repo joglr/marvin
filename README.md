@@ -31,7 +31,7 @@ It works on Windows via. WSL 2 (Ubuntu) or on PopOS and MacOS.
     ```
     or
     ```
-    roslaunch marvin_control marvin_ackerman_teleop.launch
+    roslaunch carbot_gazebo_control carbot_gazebo_control.launch
     ```
 
 
@@ -40,6 +40,7 @@ It works on Windows via. WSL 2 (Ubuntu) or on PopOS and MacOS.
     - **gazebo** which will be running the simulation
     - **publishing** to topic `marvin/cmd_vel`
 
+### Skid Steer
 1. Now you need a **second terminal** instance for running **teleop control**, either via a TMUX session or by opening a new terminal and running
     ```bash
     ./connect.sh
@@ -57,3 +58,44 @@ It works on Windows via. WSL 2 (Ubuntu) or on PopOS and MacOS.
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/marvin/cmd_vel
     ```
     You will know this is successfull if you see small table with explanations for control of the vehicle.
+
+or
+
+1. To **start the movement planner**
+    ```bash
+    rosrun marvin_plan movement_to_point.py
+    ```
+### Ackermann Steer
+
+1. Open a new terminal, and navigate to the source folder, and run.
+
+    ```bash
+    catkin build
+    source devel/setup.bash
+    ```
+2. Start publishing commands for movement.
+
+    ```bash
+    # Stop the robot.
+    rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.0, y: 0.0}, angular: {z: 0.0}}" -1
+    ```
+
+    ```bash
+    # Move straight
+    rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}}"
+    ```
+
+    ```bash
+    # Move straight
+    rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}}"
+    ```
+
+    ```bash
+    # Move straight and turn left
+    rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}, angular: {z: 0.02}}"
+    ```
+
+    ```bash
+    # Move straight and turn right
+    rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}, angular: {z: -0.02}}"
+    ```

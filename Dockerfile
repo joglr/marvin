@@ -21,6 +21,7 @@ RUN apt-get update \
   libgl1-mesa-glx \
   libgl1-mesa-dri \
   git \
+  liburdfdom-tools \
 	&& rm -rf /var/lib/apt/lists/*
 
 ARG USERNAME=ros
