@@ -38,11 +38,17 @@ Each movable component (wheels, casters for steerable robots) has a gazebo trans
 
 ### Skid steering
 
+![Image info](./images/skid.png)
+
 ### Ackermann steering
 
 The Ackermann steering model differs in the way it implements the steering axle. The model follows a "bicycle" model, i.e. there are 2 ghost wheels in the middle that are the ones that receive commands. These two then propagate the message to each of its respectable wheels.
 
+![Image info](./images/ackermann.png)
+
 ### Swerve steering
+
+![Image info](./images/swerve.png)
 
 ## Work distribution
 
