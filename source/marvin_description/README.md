@@ -27,9 +27,6 @@ roslaunch marvin_description marvin_skid.launch
 
 ## URDF
 
-- how measurements were made
-- what model sketch was being followed (link to sketch file)
-
 The urdf files for the different robots all take from the samples modular parts defined in the `urdf` folder. The only difference between the robots is whether the turning casters are set to be fixed or whether they are set to be movable joints. Each part of the robot has been carefully measured (including weight) and since rviz uses the metric system, our robots are almost perfect replicas to the real-world robot. Initially we [sketched](https://www.tldraw.com/r/4b5c9L8QwUOHz1gBu0vhn?v=697,29,1920,936&p=page) the robot, which was then used as a guide for creating the 3D models. 
 
 Xacro was used so that the parts only had to be defined once, this allowed for fast prototyping while ensuring that all the changes were reflected in each robot instantaneously. 

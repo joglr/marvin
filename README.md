@@ -109,7 +109,7 @@ or
 1. For **starting the movement planner**, run:
 
     ```bash
-    rosrun marvin_plan movement_to_point.py
+    rosrun marvin_plan hermit_curves_movement.py
     ```
 
 ### Ackermann Steering
