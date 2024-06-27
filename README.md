@@ -5,6 +5,22 @@ It assumes that `marvin_gazebo, marvin_control, marvin_description` are in your 
 
 It works on Windows via WSL 2 (Ubuntu) or on Pop!_OS and MacOS.
 
+## Repository structure
+
+The repository is divided into the following parts:
+
+- *Docker:* Dockerfile and automation scripts related to it are located in the root of the directory
+- *source:* This directory is mounted as a volume to the Docker container, inside of it are the files required for running the robot.
+
+In the `source` folder the structure is the following:
+
+- *marvin_description:* Contains different models of the robot and launch files for showing them in rviz
+- *marvin_gazebo:* Used for launching the gazebo simulation environment and storage of Gazebo worlds
+- *marvin_control:* Different types of steering and their launch files. Simulation is launched in Gazebo
+- *marvin_plan:* Functionalities related to planning
+
+Each directory has its own README file that explains how it works.
+
 ## Docker
 
 If you are new to Docker, there is a simple tutorial available [here](/Install%20docker.md) or [here](http://wiki.ros.org/docker/Tutorials/Docker). In the case of wanting to run GUI programs, follow [this](http://wiki.ros.org/es/docker/Tutorials/GUI) tutorial.
@@ -66,8 +82,10 @@ Furthermode, there are these convenience scripts:
     - **gazebo** which will be running the simulation
     - **publishing** to topic `marvin/cmd_vel`
 
-### Skid Steer
-1. Now you need a **second terminal** instance for running **teleop control**, either via a TMUX session or by opening a new terminal and running
+### Skid Steering
+
+1. Now you need a **second terminal** instance for running **teleop control**, either via a TMUX session or by opening a new terminal and running:
+
     ```bash
     ./connect.sh
     ```
@@ -83,11 +101,12 @@ Furthermode, there are these convenience scripts:
     ```bash
     rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/marvin/cmd_vel
     ```
+
     You will know this is successfull if you see small table with explanations for control of the vehicle.
 
 or
 
-1. To **start the movement planner**
+1. For **starting the movement planner**, run:
 
     ```bash
     rosrun marvin_plan hermit_curves_movement.py (topics from skid steering used)
@@ -114,16 +133,11 @@ or
     ```
 
     ```bash
-    # Move straight
-    rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}}"
-    ```
-
-    ```bash
-    # Move straight and turn left
+    # Move straight while turning left
     rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}, angular: {z: 0.02}}"
     ```
 
     ```bash
-    # Move straight and turn right
+    # Move straight while turning right
     rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}, angular: {z: -0.02}}"
     ```
