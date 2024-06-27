@@ -36,23 +36,21 @@ Xacro was used so that the parts only had to be defined once, this allowed for f
 
 Each movable component (wheels, casters for steerable robots) has a gazebo transmission element assigned to it. This allows for easier integration into the Gazebo simulation environment. To make it easier for reading, any further information concerning Gazebo is stored in `marvin_type_of_steering.gazebo`.
 
-### Skid steering
+Below you can find graph representation of the xacro files.
 
-![Image info](./images/skid.png)
+### Skid steering and swerve steering
+
+![Skid and swerve steering graph representation](./images/skid.png)
 
 ### Ackermann steering
 
 The Ackermann steering model differs in the way it implements the steering axle. The model follows a "bicycle" model, i.e. there are 2 ghost wheels in the middle that are the ones that receive commands. These two then propagate the message to each of its respectable wheels.
 
-![Image info](./images/ackermann.png)
-
-### Swerve steering
-
-![Image info](./images/swerve.png)
+![Ackermann steering graph representation](./images/ackermann.png)
 
 ## Work distribution
 
 - Erik: Worked on creating the xacro models and respectable launch files. Helped with measuring of the robot parts.
-- Jonas: Did the initial sketch and calculated weights for each of the parts, measured robot parts. 
+- Jonas: Drew the initial sketch of the robot. Calculated measurements and weights of each robot part.
 - Kirill: -
 - Milan: - 
