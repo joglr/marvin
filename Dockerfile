@@ -4,7 +4,6 @@ FROM osrf/ros:noetic-desktop-full
 RUN apt-get update \
 	&& apt-get install -y \
 	nano \
-	neovim \
 	tmux \
 	python3-catkin-tools \
 	ros-noetic-hector-gazebo-plugins \
@@ -40,13 +39,11 @@ RUN apt-get update \
   && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
   && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p .config/nvim
 
 RUN mkdir -p home/$USERNAME/catkin_ws/src
 
 COPY config/bashrc /.bashrc
 COPY config/docker_tmux /home/$USERNAME/.tmux.conf
-COPY config/vimrc /home/$USERNAME/.config/nvim/init.vim
 
 # Initialises the catkin workspace
 RUN /bin/bash -c 'source ./opt/ros/noetic/setup.bash; cd /home/${USERNAME}/catkin_ws; catkin init; catkin build'
