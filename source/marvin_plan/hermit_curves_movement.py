@@ -18,10 +18,10 @@ def h3(t):
 def h4(t):
     return t**3 - t**2
 
-def hx(t):
+def hx(t, p0, p1, t0, t1):
     return h1(t) * p0[0] + h2(t) * p1[0] + h3(t) * t0[0] + h4(t) *t1[0]
 
-def hy(t):
+def hy(t, p0, p1, t0, t1):
     return h1(t) * p0[1] + h2(t) * p1[1] + h3(t) * t0[1] + h4(t) *t1[1]
 
 
@@ -37,36 +37,30 @@ def dh3(t):
 def dh4(t):
     return 3*t**2 - 2*t
 
-def dhx(t):
+def dhx(t, p0, p1, t0, t1):
     return dh1(t) * p0[0] + dh2(t) * p1[0] + dh3(t) * t0[0] + dh4(t) * t1[0]
 
-def dhy(t):
+def dhy(t, p0, p1, t0, t1):
     return dh1(t) * p0[1] + dh2(t) * p1[1] + dh3(t) * t0[1] + dh4(t) * t1[1]
 
 
-def linear_velocity(t):
-    dx = dhx(t)
-    dy = dhy(t)
-    return 0.02 * math.sqrt(dx**2 + dy**2)
+def linear_velocity(t, p0, p1, t0, t1):
+    dx = dhx(t, p0, p1, t0, t1)
+    dy = dhy(t, p0, p1, t0, t1)
+    return 0.03 * math.sqrt(dx**2 + dy**2) # 0.02
 
-def angular_velocity(t, current_theta):
-    target_theta = math.atan2(dhy(t), dhx(t))
+def angular_velocity(t, current_theta, p0, p1, t0, t1):
+    target_theta = math.atan2(dhy(t, p0, p1, t0, t1), dhx(t, p0, p1, t0, t1))
     angle_diff = target_theta - current_theta
     if angle_diff > math.pi:
         angle_diff -= 2 * math.pi
     elif angle_diff < -math.pi:
         angle_diff += 2 * math.pi
-    return 2.0 * angle_diff
+    return 3 * angle_diff # 2.0
 
 
-def reached_end_point(x, y, end_point, threshold=0.3):
+def reached_end_point(x, y, end_point, threshold=0.4):
     return abs(x - end_point[0]) + abs(y - end_point[1]) < threshold
-
-p0 = [0, 0]
-p1 = [5, 5]
-t0 = [1, 5]
-t1 = [8, 4] 
-dt = 0.01
 
 x = 0.0
 y = 0.0
@@ -88,32 +82,36 @@ if __name__ == "__main__":
     rospy.init_node("hermite_curves_movement")
     rospy.loginfo("Node has been started")
 
-    sub = rospy.Subscriber("/marvin/odom", Odometry, new_odom_callback)
-    pub = rospy.Publisher("/marvin/cmd_vel", Twist, queue_size=5)
+    sub = rospy.Subscriber("/odom_cmd_vel", Odometry, new_odom_callback) # /marvin/odom
+    pub = rospy.Publisher("/cmd_vel", Twist, queue_size=5) # /marvin/cmd_vel
 
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(50)
+
+    p0 = [0, 0]
+    p1 = [5, 5]
+
+    t0 = [0, 10]
+    t1 = [0, 10] 
 
     t = 0
-    while not rospy.is_shutdown() and t <= 1:
-        
-        next_x, next_y = hx(t), hy(t)
+    dt = 0.001
+    while not rospy.is_shutdown():
+        next_x, next_y = hx(t, p0, p1, t0, t1), hy(t, p0, p1, t0, t1)
         rospy.loginfo(f"Target point at t={t}: ({next_x}, {next_y})")
 
-        while not (reached_end_point(x, y ,[next_x, next_y])):
-            # inc_x = next_x - x
-            # inc_y = next_y - y
-            # angle_to_goal = math.atan2(inc_y, inc_x)
-            # angle_diff = angle_to_goal - theta
+        twist = Twist()
+        twist.linear.x = linear_velocity(t, p0, p1, t0, t1)
+        twist.angular.z = angular_velocity(t, theta, p0, p1, t0, t1)
 
-            twist = Twist()
-            twist.linear.x = linear_velocity(t)
-            twist.angular.z = angular_velocity(t, theta)
+        pub.publish(twist)
+        rate.sleep()
 
-            pub.publish(twist)
-            rate.sleep()
-        rospy.loginfo("t vaue: " + str(t))
-        t += dt
-     # Stop the robot when the final point is reached
+        if reached_end_point(x, y, [next_x, next_y]):
+            t += dt
+            if t > 1:
+                break
+
+    # Stop the robot when the final point is reached
     twist = Twist()
     twist.linear.x = 0
     twist.angular.z = 0
