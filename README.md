@@ -63,7 +63,7 @@ or
 
 1. To **start the movement planner**
     ```bash
-    rosrun marvin_plan movement_to_point.py
+    rosrun marvin_plan hermit_curves_movement.py (topics from skid steering used)
     ```
 ### Ackermann Steer
 
