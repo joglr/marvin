@@ -33,10 +33,11 @@ For visualizing how the actual curve will look like the following tool was used:
 
 ### Curve
 <!-- img1 -->
+<img src="../../docs/viz1.png" style="width: 60%; width: 60%">
 
 ### Demo
 <!-- video1 -->
-
+![Demo](../../docs/hermit1.mov)
 #### Curve
 <!-- img2 -->
 
