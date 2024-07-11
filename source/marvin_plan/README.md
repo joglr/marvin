@@ -33,14 +33,14 @@ For visualizing how the actual curve will look like the following tool was used:
 
 ### Curve
 <!-- img1 -->
-<img src="../../docs/viz1.png" style="height: 40%; width: 40%">
+<img src="../../docs/viz1.png" style="height:40%; width:40%">
 
 ### Demo
 <!-- video1 -->
 ![](../../docs/hermit1.mov)
 #### Curve
 <!-- img2 -->
-<img src="../../docs/viz2.png" style="height: 40%; width: 40%">
+<img src="../../docs/viz2.png" style="height:40%; width:40%">
 
 #### Demo
 <!-- video2 -->
