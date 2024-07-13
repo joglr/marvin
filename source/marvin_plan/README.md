@@ -34,23 +34,25 @@ Robot goes through the curve and stopped at the end
 For visualizing how the actual curve will look like the following tool was used: https://www.desmos.com/calculator/5knm5tkr8m
 
 ### Curve
-![](../../docs/viz1.png){width=40% height=40%}
+![](../../docs/viz1.png){width=60% height=60%}
 
 ### Demo
 ![](../../docs/hermit1.mov)
 
 #### Curve
-<img src="../../docs/viz2.png" style="height:40%; width:40%">
+![](../../docs/viz2.png){width=60% height=60%}
 
 #### Demo
 ![](../../docs/hermit2.mov)
 
 #### Curve 
-<img src="../../docs/viz3.png" style="height:40%; width:40%">
+![](../../docs/viz3.png){width=60% height=60%}
 
 #### Demo
 <!-- video3 -->
-![](../../docs/hermit2.mov)
+![](../../docs/hermit3.mov)
+
+You can set up any points and tangent vectors in the waypoints array in the code. Factors for computing linear velocity and angular velocity can also be changed in the corresponding functions.
 
 # Flow
 
