@@ -25,6 +25,8 @@ Steps 1 and 2 are also decribed in project README.md
 
 4. Define the array of points inside the script
 
+Robot goes through the curve and stopped at the end
+
 **! By default node is using topics for skid steering. If you need to use it for ackermann steering you need to change corresponding publisher and subscriber topics** 
 
 ## Examples
@@ -32,26 +34,25 @@ Steps 1 and 2 are also decribed in project README.md
 For visualizing how the actual curve will look like the following tool was used: https://www.desmos.com/calculator/5knm5tkr8m
 
 ### Curve
-<!-- img1 -->
-<img src="../../docs/viz1.png" style="height:40%; width:40%">
+![](../../docs/viz1.png){width=40% height=40%}
 
 ### Demo
-<!-- video1 -->
 ![](../../docs/hermit1.mov)
+
 #### Curve
-<!-- img2 -->
 <img src="../../docs/viz2.png" style="height:40%; width:40%">
 
 #### Demo
-<!-- video2 -->
 ![](../../docs/hermit2.mov)
 
 #### Curve 
-<!-- img3 -->
+<img src="../../docs/viz3.png" style="height:40%; width:40%">
 
 #### Demo
 <!-- video3 -->
+![](../../docs/hermit2.mov)
 
 # Flow
 
-* rospy was used for writing script
+* rospy was used for writing the script
+* different hyperparameters (factors) were used and the best were remained
