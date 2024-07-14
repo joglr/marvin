@@ -23,11 +23,11 @@ Steps 1 and 2 are also decribed in project README.md
     rosrun marvin_plan hermite_curves_movement.py
     ```
 
-4. Define the array of points inside the script
+4. Define the array of points inside the script, if needed
 
-Robot goes through the curve and stopped at the end
+Robot goes through the curve and stop at the end
 
-**! By default node is using topics for skid steering. If you need to use it for ackermann steering you need to change corresponding publisher and subscriber topics** 
+**!By default node is using topics for skid steering. If you need to use it for ackermann steering you need to change corresponding publisher and subscriber topics** 
 
 ## Examples
 
