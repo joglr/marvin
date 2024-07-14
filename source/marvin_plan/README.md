@@ -20,7 +20,7 @@ Steps 1 and 2 are also decribed in project README.md
 
 3. Run the node for planning
     ```
-    rosrun marvin_plan hermite_curves_movement.py
+    rosrun marvin_plan hermit_curves_movement.py
     ```
 
 4. Define the array of points inside the script, if needed
