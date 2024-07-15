@@ -10,7 +10,7 @@ It works on Windows via WSL 2 (Ubuntu) or on Pop!_OS and MacOS.
 The repository is divided into the following parts:
 
 - *Docker:* Dockerfile and automation scripts related to it are located in the root of the directory
-- *source:* This directory is mounted as a volume to the Docker container, inside of it are the files required for running the robot.
+- *source:* This directory is mounted as a catkin workspace to the Docker container, inside of it are the files required for running the robot.
 
 In the `source` folder the structure is the following:
 
@@ -40,6 +40,7 @@ Furthermode, there are these convenience scripts:
 - Jonas: Automation scripts for the Dockerfile and for downloading Docker. Ensured that GUIs work on Windows. 
 - Milan: Used a virtual machine.
 - Kirill: Used a virtual machine.
+
 ## Steps for running a driving simulation
 
 1. [Install **docker**](<Install docker.md>)
