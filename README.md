@@ -92,6 +92,7 @@ Furthermode, there are these convenience scripts:
     ```
 
 1. To **initialize the second terminal**, you don't need to rebuild, just run:
+
     ```bash
     cd ~/catkin_ws/
     source ./devel/setup.bash
@@ -110,7 +111,8 @@ or
 1. For **starting the movement planner**, run:
 
     ```bash
-    rosrun marvin_plan hermit_curves_movement.py (topics from skid steering used)
+    # Uses topics from skid steering
+    rosrun marvin_plan hermit_curves_movement.py
     ```
 
 ### Ackermann Steering
@@ -121,6 +123,7 @@ or
     catkin build
     source devel/setup.bash
     ```
+
 2. Start publishing commands for movement.
 
     ```bash
