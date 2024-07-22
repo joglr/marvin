@@ -1,12 +1,12 @@
 # Marvin Control
 
-This directory contains all relevant code for different types of steering that can be used with the robot. As of right now, only skid steering and Ackermann steering are successfully implemented.
+This directory contains all relevant code for different types of steering that can be used with the robot. 
 
 ## Skid steering
 
-Skid steering is implemented via Gazebo's built-in module. To control, publish a Twist message to the `marvin/cmd_vel` topic. Below is a diagram showing how messages flow in the Ackermann model. The communication model is given below:
+Skid steering was implemented via the use of the Gazebo's built-in functionalities. The biggest hurdle that we had to overcome was setting the inertia matrices correctly and ensuring that correct topics were being subscribed / published to. The flow of information is shown on the image below:
 
-![Skid steering flow of information](./images/skid_steering_control.png)
+![Skid steering flow of information]()
 
 For launching the skid steering model, run the following:
 
@@ -14,7 +14,7 @@ For launching the skid steering model, run the following:
 roslaunch marvin_control marvin_skid_teleop.launch
 ```
 
-Then any publishing to the marvin/cmd_vel topic will control the robot. These are the following possibilities for control:
+Then any publishing to the marvin/cmd_vel topic will control the robot. That is you can either control it via teleop or via planning with:
 
 1. To **start the teleop control**, run:
 
