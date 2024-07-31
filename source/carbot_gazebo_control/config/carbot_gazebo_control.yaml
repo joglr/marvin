@@ -4,35 +4,35 @@ carbot:
   # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
-    publish_rate: 50
+    publish_rate: 20
 
   # Position Controllers ---------------------------------------
   front_left:
     steer_position_controller:
       type: effort_controllers/JointPositionController
       joint: left_front_caster_to_shoulder
-      pid: {p: 40.0, i: 0.001, d: 0.5, i_clamp_min: -1.0, i_clamp_max: 1.0}
+      pid: {p: 1.0, i: 0.01, d: 0.1, i_clamp_min: -1.0, i_clamp_max: 1.0}
     wheel_position_controller:
       type: effort_controllers/JointPositionController
       joint: left_front_wheel_joint
-      pid: {p: 20.0, i: 0.001, d: 1.0, i_clamp_min: -1.0, i_clamp_max: 1.0}
+      pid: {p: 1.0, i: 0.01, d: 0.1, i_clamp_min: -1.0, i_clamp_max: 1.0}
   front_right:
     steer_position_controller:
       type: effort_controllers/JointPositionController
       joint: right_front_caster_to_shoulder
-      pid: {p: 40.0, i: 0.001, d: 0.5, i_clamp_min: -1.0, i_clamp_max: 1.0}
+      pid: {p: 1.0, i: 0.01, d: 0.1, i_clamp_min: -1.0, i_clamp_max: 1.0}
     # TODO(lucasw) are these better off velocity controllers?
     wheel_position_controller:
       type: effort_controllers/JointPositionController
       joint: right_front_wheel_joint
-      pid: {p: 20.0, i: 0.001, d: 1.0, i_clamp_min: -1.0, i_clamp_max: 1.0}
+      pid: {p: 1.0, i: 0.01, d: 0.1, i_clamp_min: -1.0, i_clamp_max: 1.0}
   back_left:
     wheel_position_controller:
       type: effort_controllers/JointPositionController
       joint: left_back_wheel_joint
-      pid: {p: 20.0, i: 0.001, d: 1.0, i_clamp_min: -1.0, i_clamp_max: 1.0}
+      pid: {p: 1.0, i: 0.01, d: 0.1, i_clamp_min: -1.0, i_clamp_max: 1.0}
   back_right:
     wheel_position_controller:
       type: effort_controllers/JointPositionController
       joint: right_back_wheel_joint
-      pid: {p: 20.0, i: 0.001, d: 1.0, i_clamp_min: -1.0, i_clamp_max: 1.0}
+      pid: {p: 1.0, i: 0.01, d: 0.1, i_clamp_min: -1.0, i_clamp_max: 1.0}

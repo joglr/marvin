@@ -7,6 +7,7 @@ import rospy
 import tf2_py as tf2
 import tf2_ros
 
+from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, PointStamped, TransformStamped, Twist
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64
@@ -27,12 +28,12 @@ class Acker():
         # TODO(lucasw) need to know per wheel radius to compute velocity
         # correctly, for now assume all wheels are same radius
         self.joints = rospy.get_param("~steered_joints",
-                                      [{'link': 'left_front_caster_horizontal',
+                                      [{'link': 'right_front_caster_horizontal',
                                         'steer_joint': 'left_front_caster_to_shoulder',
                                         'steer_topic': '/carbot/front_left/steer_position_controller/command',
                                         'wheel_joint': 'left_front_wheel_joint',
                                         'wheel_topic': '/carbot/front_left/wheel_position_controller/command'},
-                                       {'link': 'right_front_caster_horizontal',
+                                       {'link': 'left_front_caster_horizontal',
                                         'steer_joint': 'right_front_caster_to_shoulder',
                                         'steer_topic': '/carbot/front_right/steer_position_controller/command',
                                         'wheel_joint': 'right_front_wheel_joint',
@@ -108,6 +109,7 @@ class Acker():
                                                      'joint': 'lead_steer_joint',
                                                      'wheel_joint': 'wheel_lead_axle'})
         self.twist_pub = rospy.Publisher("odom_cmd_vel", Twist, queue_size=3)
+        #self.odom_pub = rospy.Publisher("odom", Odometry, queue_size=3)
         # TODO(lucasw) circular publisher here- the steer command is on
         # joint_states, then published onto steered_joint_states, which updates
         # joint_states- but the joints are different.
@@ -184,6 +186,7 @@ class Acker():
         joint_states.header = msg.header
         self.wheel_joint_states.header = msg.header
         odom_cmd_vel = Twist()
+        #odom = Odometry()
 
         # TODO(lucaw) possibly eliminate this pathway and have
         # special case code below to mix in this special case.
@@ -219,7 +222,9 @@ class Acker():
             distance = self.wheel_radius * lead_wheel_angular_velocity * dt
             if dt > 0:
                 odom_cmd_vel.linear.x = distance / dt
+                #odom.pose.pose.position.x = distance / dt
             self.twist_pub.publish(odom_cmd_vel)
+            #self.odom_pub.publish(odom)
 
             self.ts.transform.translation.x += distance * math.cos(self.angle)
             self.ts.transform.translation.y += distance * math.sin(-self.angle)
@@ -297,9 +302,12 @@ class Acker():
         if dt > 0:
             odom_cmd_vel.linear.x = dx_in_ts / dt
             odom_cmd_vel.linear.y = dy_in_ts / dt
+            #odom.pose.pose.position.x = dx_in_ts / dt
+            #odom.pose.pose.position.y = dy_in_ts / dt
             # print math.degrees(steer_angle), distance, odom_cmd_vel.linear.x, \
             #         odom_cmd_vel.linear.y, radius, math.degrees(angle_traveled)
             self.twist_pub.publish(odom_cmd_vel)
+            # self.odom_pub.publish(odom)
 
         # then need to rotate x and y by self.angle
         dx_in_parent = distance * math.cos(self.angle + steer_angle)
