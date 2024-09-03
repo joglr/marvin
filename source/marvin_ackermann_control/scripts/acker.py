@@ -7,6 +7,7 @@ import rospy
 import tf2_py as tf2
 import tf2_ros
 
+from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point, PointStamped, TransformStamped, Twist
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64
@@ -23,30 +24,27 @@ class Acker():
         self.tf = tf2_ros.TransformListener(self.tf_buffer)
         self.br = tf2_ros.TransformBroadcaster()
 
-        # get a dict of joints and their link locations
-        # TODO(lucasw) need to know per wheel radius to compute velocity
-        # correctly, for now assume all wheels are same radius
         self.joints = rospy.get_param("~steered_joints",
-                                      [{'link': 'left_front_caster_horizontal',
+                                      [{'link': 'right_front_caster_horizontal',
                                         'steer_joint': 'left_front_caster_to_shoulder',
-                                        'steer_topic': '/carbot/front_left/steer_position_controller/command',
+                                        'steer_topic': '/marvin/front_left/steer_position_controller/command',
                                         'wheel_joint': 'left_front_wheel_joint',
-                                        'wheel_topic': '/carbot/front_left/wheel_position_controller/command'},
-                                       {'link': 'right_front_caster_horizontal',
+                                        'wheel_topic': '/marvin/front_left/wheel_position_controller/command'},
+                                       {'link': 'left_front_caster_horizontal',
                                         'steer_joint': 'right_front_caster_to_shoulder',
-                                        'steer_topic': '/carbot/front_right/steer_position_controller/command',
+                                        'steer_topic': '/marvin/front_right/steer_position_controller/command',
                                         'wheel_joint': 'right_front_wheel_joint',
-                                        'wheel_topic': '/carbot/front_right/wheel_position_controller/command'},
+                                        'wheel_topic': '/marvin/front_right/wheel_position_controller/command'},
                                        {'link': 'left_back_caster_horizontal',
                                         'steer_joint': None,
                                         'steer_topic': None,
                                         'wheel_joint': 'left_back_wheel_joint',
-                                        'wheel_topic': '/carbot/back_left/wheel_position_controller/command'},
+                                        'wheel_topic': '/marvin/back_left/wheel_position_controller/command'},
                                        {'link': 'right_back_caster_horizontal',
                                         'steer_joint': None,
                                         'steer_topic': None,
                                         'wheel_joint': 'right_back_wheel_joint',
-                                        'wheel_topic': '/carbot/back_right/wheel_position_controller/command'}])
+                                        'wheel_topic': '/marvin/back_right/wheel_position_controller/command'}])
 
         self.wheel_radius = rospy.get_param("~wheel_radius", 0.15)
         # gazebo joint controller commands
@@ -63,13 +61,11 @@ class Acker():
                 self.command_pub[wheel['wheel_joint']] = rospy.Publisher(wheel_topic,
                                                                          Float64, queue_size=4)
 
-            # TODO(lucasw) read the current angle to initialize
             self.wheel_joint_states.name.append(wheel['wheel_joint'])
             self.wheel_joint_states.position.append(0.0)
             self.wheel_joint_states.velocity.append(0.0)
 
-        # TODO(lucasw) initialize the current position from
-        # another source
+
         self.ts = TransformStamped()
         self.ts.header.frame_id = "map"
         self.ts.child_frame_id = "base_link"
@@ -80,8 +76,7 @@ class Acker():
         # the fixed back axle- all the fixed wheels rotate around the y-axis
         # of the back axle
         self.back_axle_link = rospy.get_param("~back_axle_link", "back_axle")
-        # TODO(lucasw) for now assume all the links have no rotation
-        # with respect to each other, later do this robustly with tf lookups
+
 
         self.marker = Marker()
         self.marker.id = 0
@@ -100,17 +95,12 @@ class Acker():
 
         self.marker_pub = rospy.Publisher("marker", Marker, queue_size=len(self.joints) * 2)
         self.point_pub = rospy.Publisher("spin_center", PointStamped, queue_size=1)
-        # TODO(lucasw) would like there to be a gazebo plugin that takes
-        # desired joint position and velocity, but I believe there is only
-        # the simple command inputs that pid to a position or velocity, but not both.
         self.joint_pub = rospy.Publisher("steered_joint_states", JointState, queue_size=3)
         self.lead_steer = rospy.get_param("~steer", {'link': 'lead_steer',
                                                      'joint': 'lead_steer_joint',
                                                      'wheel_joint': 'wheel_lead_axle'})
         self.twist_pub = rospy.Publisher("odom_cmd_vel", Twist, queue_size=3)
-        # TODO(lucasw) circular publisher here- the steer command is on
-        # joint_states, then published onto steered_joint_states, which updates
-        # joint_states- but the joints are different.
+        #self.odom_pub = rospy.Publisher("odom", Odometry, queue_size=3)
         self.joint_sub = rospy.Subscriber("joint_states", JointState,
                                           self.lead_steer_callback, queue_size=4)
 
@@ -148,11 +138,6 @@ class Acker():
         self.marker_pub.publish(self.marker)
         return angle, radius
 
-    # TODO(lucasw) want to receive a joint state that has position
-    # and velocity and command a joint_state to achieve it, but ros_control
-    # can only take a command for a single value, would need a pvt style
-    # interface running upstream of ros_control, or make custom own ros_control
-    # controller?
     def lead_steer_callback(self, msg):
         lead_steer_joint = self.lead_steer['joint']
         if lead_steer_joint not in msg.name:
@@ -184,12 +169,9 @@ class Acker():
         joint_states.header = msg.header
         self.wheel_joint_states.header = msg.header
         odom_cmd_vel = Twist()
+        #odom = Odometry()
 
-        # TODO(lucaw) possibly eliminate this pathway and have
-        # special case code below to mix in this special case.
         if steer_angle == 0.0:
-            # TODO(lucasw) assume no rotation of link holding this joint
-            # with respect to the back axle link
             for i in range(len(self.joints)):
                 steer_joint = self.joints[i]['steer_joint']
                 if steer_joint is not None:
@@ -202,24 +184,21 @@ class Acker():
 
                 wheel_joint = self.joints[i]['wheel_joint']
                 ind = self.wheel_joint_states.name.index(wheel_joint)
-                # TODO(lucasw) this assumes all wheels have the same radius
                 self.wheel_joint_states.position[ind] += lead_wheel_angular_velocity * dt
                 self.wheel_joint_states.velocity[ind] = lead_wheel_angular_velocity
                 if wheel_joint in self.command_pub.keys():
                     self.command_pub[wheel_joint].publish(self.wheel_joint_states.position[ind])
 
-            # TODO(lucasw) combine these into one message
             self.joint_pub.publish(joint_states)
             self.joint_pub.publish(self.wheel_joint_states)
 
             # upate odometry
-            # TODO(lucasw) this doesn't model skid steering at all, it assume an
-            # off-axis wheel driving forward will drive the robot forward because
-            # all the wheels balance.
             distance = self.wheel_radius * lead_wheel_angular_velocity * dt
             if dt > 0:
                 odom_cmd_vel.linear.x = distance / dt
+                #odom.pose.pose.position.x = distance / dt
             self.twist_pub.publish(odom_cmd_vel)
+            #self.odom_pub.publish(odom)
 
             self.ts.transform.translation.x += distance * math.cos(self.angle)
             self.ts.transform.translation.y += distance * math.sin(-self.angle)
@@ -253,9 +232,7 @@ class Acker():
 
         angle, lead_radius = self.get_angle(self.lead_steer['link'], spin_center,
                                             steer_angle, msg.header.stamp)
-        # TODO(lucasw) assume no rotation for now- zero steer angle
-        # means the steer joint is aligned with x axis of the robot
-        # TODO(lucasw)
+
         for i in range(len(self.joints)):
             joint = self.joints[i]['steer_joint']
             link = self.joints[i]['link']
@@ -273,18 +250,13 @@ class Acker():
 
             wheel_joint = self.joints[i]['wheel_joint']
             ind = self.wheel_joint_states.name.index(wheel_joint)
-            # TODO(lucasw) lead_wheel_angular_velocity for this joint needs
-            # to be scaled by different in distance to spin center
+            
             self.wheel_joint_states.position[ind] += lead_wheel_angular_velocity * fr * dt
             self.wheel_joint_states.velocity[ind] = lead_wheel_angular_velocity * fr
             if wheel_joint in self.command_pub.keys():
                 self.command_pub[wheel_joint].publish(self.wheel_joint_states.position[ind])
 
         # update odometry
-        # There may be another odometric frame in the future, based off
-        # actual encoder values rather than desired
-        # TODO(lucasw) need a steer joint at the base_link and set it
-        # to this angle
         steer_angle, radius = self.get_angle("base_link", spin_center,
                                              steer_angle, msg.header.stamp)
         fr = radius / lead_radius
@@ -297,9 +269,12 @@ class Acker():
         if dt > 0:
             odom_cmd_vel.linear.x = dx_in_ts / dt
             odom_cmd_vel.linear.y = dy_in_ts / dt
+            #odom.pose.pose.position.x = dx_in_ts / dt
+            #odom.pose.pose.position.y = dy_in_ts / dt
             # print math.degrees(steer_angle), distance, odom_cmd_vel.linear.x, \
             #         odom_cmd_vel.linear.y, radius, math.degrees(angle_traveled)
             self.twist_pub.publish(odom_cmd_vel)
+            # self.odom_pub.publish(odom)
 
         # then need to rotate x and y by self.angle
         dx_in_parent = distance * math.cos(self.angle + steer_angle)

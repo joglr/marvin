@@ -3,11 +3,11 @@
   <arg name="use_rviz" default="false"/>
   <arg name="use_joy" default="false" doc="use joystick/gamepad"/>
 
-  <rosparam file="$(find carbot_gazebo_control)/config/carbot_gazebo_control.yaml" command="load"/>
+  <rosparam file="$(find marvin_ackermann_gazebo_control)/config/marvin_ackermann_gazebo_control.yaml" command="load"/>
 
   <!-- load every controller in the yaml -->
   <node name="spawner" pkg="controller_manager" type="spawner"
-    output="screen" ns="/carbot"
+    output="screen" ns="/marvin"
     args="joint_state_controller
        front_left/steer_position_controller
        front_left/wheel_position_controller
@@ -16,7 +16,7 @@
        back_left/wheel_position_controller
        back_right/wheel_position_controller"/>
 
-  <include file="$(find carbot_gazebo)/launch/carbot_world.launch">
+  <include file="$(find marvin_ackermann_gazebo)/launch/marvin_ackermann_world.launch">
     <arg name="use_joy" value="$(arg use_joy)"/>
   </include>
 

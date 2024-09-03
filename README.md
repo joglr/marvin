@@ -137,11 +137,11 @@ or
     ```
 
     ```bash
-    # Move straight while turning left
+    # Move straight while turning right
     rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}, angular: {z: 0.02}}"
     ```
 
     ```bash
-    # Move straight while turning right
+    # Move straight while turning left
     rostopic pub /cmd_vel geometry_msgs/Twist "{linear: {x: 0.1}, angular: {z: -0.02}}"
     ```
