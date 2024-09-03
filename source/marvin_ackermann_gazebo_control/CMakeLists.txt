@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(carbot_gazebo)
+project(marvin_ackermann_gazebo_control)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -97,7 +97,7 @@ find_package(catkin REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES carbot_gazebo
+#  LIBRARIES marvin_ackermann_gazebo_control
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
@@ -111,24 +111,24 @@ catkin_package(
 # include_directories(include)
 
 ## Declare a C++ library
-# add_library(carbot_gazebo
-#   src/${PROJECT_NAME}/carbot_gazebo.cpp
+# add_library(marvin_ackermann_gazebo_control
+#   src/${PROJECT_NAME}/marvin_ackermann_gazebo_control.cpp
 # )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(carbot_gazebo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(marvin_ackermann_gazebo_control ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(carbot_gazebo_node src/carbot_gazebo_node.cpp)
+# add_executable(marvin_ackermann_gazebo_control_node src/marvin_ackermann_gazebo_control_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(carbot_gazebo_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(marvin_ackermann_gazebo_control_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(carbot_gazebo_node
+# target_link_libraries(marvin_ackermann_gazebo_control_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -147,7 +147,7 @@ catkin_package(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS carbot_gazebo carbot_gazebo_node
+# install(TARGETS marvin_ackermann_gazebo_control marvin_ackermann_gazebo_control_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -167,15 +167,15 @@ catkin_package(
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
 
+install(DIRECTORY config/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
 install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
-install(DIRECTORY worlds/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
 
 #############
 ## Testing ##
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_carbot_gazebo.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_marvin_ackermann_gazebo_control.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

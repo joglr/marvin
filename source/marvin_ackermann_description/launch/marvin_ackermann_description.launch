@@ -6,17 +6,17 @@
   <arg name="use_robot_pub" default="true"/>
 
   <param name="robot_description"
-    command="$(find xacro)/xacro --inorder '$(find carbot_description)/urdf/carbot.xacro'"/>
+    command="$(find xacro)/xacro --inorder '$(find marvin_ackermann_description)/urdf/marvin.xacro'"/>
 
   <node name="joint_state_publisher" pkg="joint_state_publisher"
       type="joint_state_publisher">
     <param name="use_gui" value="$(arg use_joint_gui)"/>
     <rosparam param="source_list">
-      ["carbot/joint_states",
-       "carbot/front_right/joint_states",
-       "carbot/front_left/joint_states",
-       "carbot/back_left/joint_states",
-       "carbot/back_right/joint_states",
+      ["marvin/joint_states",
+       "marvin/front_right/joint_states",
+       "marvin/front_left/joint_states",
+       "marvin/back_left/joint_states",
+       "marvin/back_right/joint_states",
        "steer_joint_states"]
     </rosparam>
       <!-- these are controlled by gazebo now, but TODO(lucasw) need a non-gazebo
@@ -31,7 +31,7 @@
 
   <node name="rviz" pkg="rviz" type="rviz"
       if="$(arg use_rviz)"
-      args="-d $(find carbot_description)/config/carbot.rviz"/>
+      args="-d $(find marvin_ackermann_description)/config/marvin.rviz"/>
 
   <node if="$(arg use_static_tf)"
       pkg="tf" type="static_transform_publisher" name="static_transform_publisher"
