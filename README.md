@@ -75,7 +75,7 @@ Furthermode, there are these convenience scripts:
     or
 
     ```bash
-    roslaunch carbot_gazebo_control carbot_gazebo_control.launch
+    roslaunch marvin_ackermann_gazebo_control marvin_ackermann_gazebo_control.launch
     ```
 
     This will start...
