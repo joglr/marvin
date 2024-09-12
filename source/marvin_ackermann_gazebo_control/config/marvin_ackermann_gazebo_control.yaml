@@ -21,7 +21,6 @@ marvin:
       type: effort_controllers/JointPositionController
       joint: right_front_caster_to_shoulder
       pid: {p: 1.0, i: 0.01, d: 0.1, i_clamp_min: -1.0, i_clamp_max: 1.0}
-    # TODO(lucasw) are these better off velocity controllers?
     wheel_position_controller:
       type: effort_controllers/JointPositionController
       joint: right_front_wheel_joint

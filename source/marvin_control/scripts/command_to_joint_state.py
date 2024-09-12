@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# Lucas Walter
 # make a joint exactly what the command wants it to be- this only works
 # for position control.
 

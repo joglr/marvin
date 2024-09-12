@@ -15,7 +15,7 @@ Steps 1 and 2 are also decribed in project README.md
     ```
     or
     ```
-    roslaunch carbot_gazebo_control carbot_gazebo_control.launch 
+    roslaunch marvin_ackermann_gazebo_control_control marvin_ackermann_gazebo_control_control.launch 
     ```
 
 3. Run the node for planning

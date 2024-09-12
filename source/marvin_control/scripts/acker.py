@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# Copyright 2016 Lucas Walter
 
 import math
 import numpy
@@ -25,7 +24,7 @@ class Acker():
         # Initialize the vehicle's position and orientation
         self.x = 0.0
         self.y = 0.0
-        self.orientation = 0.0  # Assuming 2D plane; represented as yaw angle
+        self.orientation = 0.0 
 
         self.tf_buffer = tf2_ros.Buffer()
         self.tf = tf2_ros.TransformListener(self.tf_buffer)
@@ -107,7 +106,7 @@ class Acker():
                                                      'joint': 'lead_steer_joint',
                                                      'wheel_joint': 'wheel_lead_axle'})
         self.twist_pub = rospy.Publisher("odom_cmd_vel", Twist, queue_size=3)
-        #self.odom_pub = rospy.Publisher("odom", Odometry, queue_size=3)
+
         self.joint_sub = rospy.Subscriber("joint_states", JointState,
                                           self.lead_steer_callback, queue_size=4)
 
@@ -169,14 +168,12 @@ class Acker():
 
         steer_angle = msg.position[steer_ind]
         lead_wheel_angular_velocity = msg.velocity[wheel_ind]
-        # steer_velocity = msg.velocity[steer_ind]
-        # steer_effort = msg.effort[steer_ind]
 
         joint_states = JointState()
         joint_states.header = msg.header
         self.wheel_joint_states.header = msg.header
         odom_cmd_vel = Twist()
-        #odom = Odometry()
+ 
 
         if steer_angle == 0.0:
             for i in range(len(self.joints)):
@@ -184,8 +181,6 @@ class Acker():
                 if steer_joint is not None:
                     joint_states.name.append(steer_joint)
                     joint_states.position.append(steer_angle)
-                    # joint_states.velocity.append(steer_velocity)
-                    # joint_states.effort.append(steer_effort)
                 if steer_joint in self.command_pub.keys():
                     self.command_pub[steer_joint].publish(steer_angle)
 
@@ -203,9 +198,7 @@ class Acker():
             distance = self.wheel_radius * lead_wheel_angular_velocity * dt
             if dt > 0:
                 odom_cmd_vel.linear.x = distance / dt
-                #odom.pose.pose.position.x = distance / dt
             self.twist_pub.publish(odom_cmd_vel)
-            #self.odom_pub.publish(odom)
 
             self.ts.transform.translation.x += distance * math.cos(self.angle)
             self.ts.transform.translation.y += distance * math.sin(-self.angle)
@@ -227,10 +220,7 @@ class Acker():
                                                    msg.header.stamp, rospy.Duration(4.0))
 
         spin_center = PointStamped()
-        # R cos(steer_angle) = y
-        # R sin(steer_angle) = x
-        # x = steer_ts.position.x
-        # R = steer_ts.position.x / sin(steer_angle)
+
         y = steer_ts.transform.translation.x / math.tan(-steer_angle)
         spin_center.point.y = y + steer_ts.transform.translation.y
         spin_center.header.stamp = msg.header.stamp
@@ -299,12 +289,9 @@ class Acker():
         if dt > 0:
             odom_cmd_vel.linear.x = dx_in_ts / dt
             odom_cmd_vel.linear.y = dy_in_ts / dt
-            #odom.pose.pose.position.x = dx_in_ts / dt
-            #odom.pose.pose.position.y = dy_in_ts / dt
-            # print math.degrees(steer_angle), distance, odom_cmd_vel.linear.x, \
-            #         odom_cmd_vel.linear.y, radius, math.degrees(angle_traveled)
+
             self.twist_pub.publish(odom_cmd_vel)
-            # self.odom_pub.publish(odom)
+
 
         # then need to rotate x and y by self.angle
         dx_in_parent = distance * math.cos(self.angle + steer_angle)
@@ -321,7 +308,7 @@ class Acker():
         self.ts.transform.rotation.w = quat[3]
 
         self.ts.header.stamp = msg.header.stamp
-        # convert self.angle to quaternion
+
         self.br.sendTransform(self.ts)
 
         self.joint_pub.publish(joint_states)

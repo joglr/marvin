@@ -13,11 +13,11 @@
       type="joint_state_publisher">
     <param name="use_gui" value="$(arg use_joint_gui)"/>
     <rosparam param="source_list">
-      ["carbot/joint_states",
-       "carbot/front_right/joint_states",
-       "carbot/front_left/joint_states",
-       "carbot/back_left/joint_states",
-       "carbot/back_right/joint_states",
+      ["marvin/joint_states",
+       "marvin/front_right/joint_states",
+       "marvin/front_left/joint_states",
+       "marvin/back_left/joint_states",
+       "marvin/back_right/joint_states",
        "steer_joint_states"]
     </rosparam>
   </node>
