@@ -20,6 +20,13 @@ class Acker():
         self.rate = rospy.get_param("~rate", 20.0)
         self.period = 1.0 / self.rate
 
+        self.odom_pub = rospy.Publisher('/marvin/odom', Odometry, queue_size=10)  # Odometry data topic
+
+        # Initialize the vehicle's position and orientation
+        self.x = 0.0
+        self.y = 0.0
+        self.orientation = 0.0  # Assuming 2D plane; represented as yaw angle
+
         self.tf_buffer = tf2_ros.Buffer()
         self.tf = tf2_ros.TransformListener(self.tf_buffer)
         self.br = tf2_ros.TransformBroadcaster()
@@ -262,6 +269,29 @@ class Acker():
         fr = radius / lead_radius
         # distance traveled along the radial path in base_link
         distance = self.wheel_radius * lead_wheel_angular_velocity * fr * dt
+
+        self.x += distance * math.cos(self.orientation)  # Update x position
+        self.y += distance * math.sin(self.orientation)  # Update y position
+        self.orientation += steer_angle * dt  # Update orientation (yaw)
+
+        odom = Odometry()
+        odom.header.stamp = msg.header.stamp
+        odom.header.frame_id = "odom"
+
+        odom.pose.pose.position.x = self.x
+        odom.pose.pose.position.y = self.y
+        odom.pose.pose.position.z = 0.0
+
+        # Set the orientation (converting from Euler to quaternion)
+        quat2 = transformations.quaternion_from_euler(0, 0, self.orientation)
+        odom.pose.pose.orientation.x = quat2[0]
+        odom.pose.pose.orientation.y = quat2[1]
+        odom.pose.pose.orientation.z = quat2[2]
+        odom.pose.pose.orientation.w = quat2[3]
+
+        # Publish the Odometry message
+        self.odom_pub.publish(odom)
+        
         angle_traveled = distance / radius
         # the distance traveled in the base_link frame:
         dx_in_ts = distance * math.cos(steer_angle)
