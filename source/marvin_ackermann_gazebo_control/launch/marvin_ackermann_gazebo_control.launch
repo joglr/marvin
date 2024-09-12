@@ -16,7 +16,7 @@
        back_left/wheel_position_controller
        back_right/wheel_position_controller"/>
 
-  <include file="$(find marvin_ackermann_gazebo)/launch/marvin_ackermann_world.launch">
+  <include file="$(find marvin_gazebo)/launch/marvin_ackermann_world.launch">
     <arg name="use_joy" value="$(arg use_joy)"/>
   </include>
 

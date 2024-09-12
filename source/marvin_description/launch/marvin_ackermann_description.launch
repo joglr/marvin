@@ -5,9 +5,6 @@
   <arg name="use_static_tf" default="true"/>
   <arg name="use_robot_pub" default="true"/>
 
-  <param name="robot_description"
-    command="$(find xacro)/xacro --inorder '$(find marvin_ackermann_description)/urdf/marvin.xacro'"/>
-
   <node name="joint_state_publisher" pkg="joint_state_publisher"
       type="joint_state_publisher">
     <param name="use_gui" value="$(arg use_joint_gui)"/>
@@ -19,10 +16,6 @@
        "marvin/back_right/joint_states",
        "steer_joint_states"]
     </rosparam>
-      <!-- these are controlled by gazebo now, but TODO(lucasw) need a non-gazebo
-        way to set them also- it could be this rosparam is set elsewhere,
-        or has an if=arg in it. -->
-      <!-- "steered_joint_states"] -->
   </node>
 
   <node name="robot_state_publisher" pkg="robot_state_publisher"
